@@ -21,3 +21,8 @@ ara_api_required_packages:
   - python3-virtualenv
   - python3-libselinux
   - policycoreutils-python-utils
+
+ara_api_postgresql_packages:
+  - postgresql
+  - postgresql-devel
+  - gcc
