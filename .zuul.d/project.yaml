@@ -1,3 +1,6 @@
 - project:
     templates:
       - noop-jobs
+    post:
+      jobs:
+        - ara-collection-upload-git-mirror
