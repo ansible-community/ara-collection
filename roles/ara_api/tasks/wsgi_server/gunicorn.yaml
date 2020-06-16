@@ -23,6 +23,17 @@
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
 
+- name: Get path to gunicorn
+  command: which gunicorn
+  changed_when: false
+  register: _gunicorn_cmd
+  environment:
+    PATH: "{{ path_with_virtualenv }}"
+
+- name: Set path to gunicorn
+  set_fact:
+    _gunicorn_path: "{{ _gunicorn_cmd.stdout }}"
+
 - when: ansible_os_family == "RedHat"
   block:
     - name: Transfer gunicorn selinux type enforcement file
