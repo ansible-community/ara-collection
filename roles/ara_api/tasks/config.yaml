@@ -49,7 +49,7 @@
   block:
     - name: Generate a random secret key
       environment:
-        PATH: "{{ path_with_virtualenv | default('/usr/bin:/usr/local/bin') }}"
+        PATH: "{{ path_with_virtualenv }}"
       command: python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(length=50))"
       no_log: "{{ ara_api_secure_logging }}"
       register: generated_key
