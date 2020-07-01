@@ -1,0 +1,13 @@
+namespace: arecordsansible
+name: ara
+version: 0.0.1
+readme: README.md
+authors:
+  - ARA Records Ansible (https://github.com/ansible-community/ara)
+description: null
+license_file: LICENSE
+tags: null
+repository: https://github.com/ansible-community/ara-collection
+documentation: https://github.com/ansible-community/ara-collection
+homepage: https://ara.recordsansible.org
+issues: https://github.com/ansible-community/ara-collection/issues
