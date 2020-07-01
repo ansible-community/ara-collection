@@ -1,6 +1,6 @@
 # Ansible role: ara_api
 
-![ara_api](../../doc/source/_static/ansible-role-ara-api.png)
+![ara_api](https://raw.githubusercontent.com/ansible-community/ara-collection/master/doc/source/_static/ansible-role-ara-api.png)
 
 This Ansible role provides a framework for installing one or many instances of the
 [ARA](https://github.com/ansible-community/ara) API Server in a variety of

@@ -1,6 +1,6 @@
 # Ansible role: ara_web
 
-![ara_web](../../doc/source/_static/ansible-role-ara-web.png)
+![ara_web](https://raw.githubusercontent.com/ansible-community/ara-collection/master/doc/source/_static/ansible-role-ara-web.png)
 
 This Ansible role provides a framework for installing one or many instances of
 [ara-web](https://github.com/ansible-community/ara-web) in a variety of

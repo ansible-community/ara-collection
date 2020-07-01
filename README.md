@@ -5,29 +5,29 @@ Opinionated collection of Ansible roles for deploying and configuring
 
 ARA Records Ansible playbooks and makes them easier to understand and troubleshoot.
 
-![ara](doc/source/_static/ara-with-icon.png)
+![ara](https://raw.githubusercontent.com/ansible-community/ara-collection/master/doc/source/_static/ara-with-icon.png)
 
 ## ara_api
 
-![ara_api](doc/source/_static/ansible-role-ara-api.png)
+![ara_api](https://raw.githubusercontent.com/ansible-community/ara-collection/master/doc/source/_static/ansible-role-ara-api.png)
 
 A role to install and run the ARA API server and built-in reporting interface
 in various supported configurations.
 
-Documentation: [roles/ara_api/README.md](roles/ara_api/README.md)
+Documentation: [roles/ara_api/README.md](https://github.com/ansible-community/ara-collection/blob/master/roles/ara_api/README.md)
 
 ## ara_web
 
 ![ara_web](doc/source/_static/ansible-role-ara-web.png)
 
-Documentation: [roles/ara_web/README.md](roles/ara_web/README.md)
+Documentation: [roles/ara_web/README.md](https://github.com/ansible-community/ara-collection/blob/master/roles/ara_web/README.md)
 
 ## ara_frontend_nginx
 
 A role that sets up a basic nginx reverse proxy for serving the API server as
 well as ara-web.
 
-Documentation: [roles/ara_frontend_nginx/README.md](roles/ara_frontend_nginx/README.md)
+Documentation: [roles/ara_frontend_nginx/README.md](https://github.com/ansible-community/ara-collection/blob/master/roles/ara_frontend_nginx/README.md)
 
 # Community and getting help
 
