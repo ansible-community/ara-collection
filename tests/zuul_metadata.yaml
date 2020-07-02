@@ -1,0 +1,28 @@
+---
+# Copyright (c) 2020 The ARA Records Ansible authors
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+- name: Set default labels for check, gate and promote pipelines
+  set_fact:
+    _default_labels:
+      - "nodepool.provider:{{ nodepool.provider }}"
+      - "zuul.change:{{ zuul.change }}"
+      - "zuul.executor:{{ zuul.executor.hostname }}"
+      - "zuul.job:{{ zuul.job }}"
+      - "zuul.pipeline:{{ zuul.pipeline }}"
+      - "zuul.project:{{ zuul.project.canonical_name }}"
+  when:
+    - zuul.pipeline is defined
+    - zuul.pipeline in ["check", "gate", "promote"]
+
+- name: Set default labels for periodic and post pipelines
+  set_fact:
+    _default_labels:
+      - "nodepool.provider:{{ nodepool.provider }}"
+      - "zuul.executor:{{ zuul.executor.hostname }}"
+      - "zuul.job:{{ zuul.job }}"
+      - "zuul.pipeline:{{ zuul.pipeline }}"
+      - "zuul.project:{{ zuul.project.canonical_name }}"
+  when:
+    - zuul.pipeline is defined
+    - zuul.pipeline in ["periodic", "post"]

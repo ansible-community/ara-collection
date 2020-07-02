@@ -1,0 +1,55 @@
+---
+# Copyright (c) 2020 The ARA Records Ansible authors
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+- name: Test the ARA API with the distributed sqlite backend
+  hosts: all
+  gather_facts: yes
+  vars_files:
+    - vars/distributed_sqlite_tests.yaml
+  tasks:
+    # Generate ourselves a fresh database to run tests with
+    - name: Set up the API with the default sqlite backend
+      include_role:
+        name: ara_api
+        public: yes
+
+    # These are tasks rather than a standalone playbook to give us an easy
+    # access to all the variables within the same play.
+    - include_tasks: test_tasks.yaml
+
+    - name: Enable the distributed sqlite backend
+      vars:
+        ara_api_distributed_sqlite: true
+      include_role:
+        name: ara_api
+        public: yes
+
+    - name: Ensure there are no pending handlers
+      meta: flush_handlers
+
+    - name: Create test directories
+      file:
+        path: "{{ ara_api_distributed_sqlite_root }}/{{ item }}"
+        state: directory
+        recurse: yes
+      loop: "{{ _test_directories }}"
+
+    - name: Copy the database to the test directories
+      copy:
+        src: "{{ ara_api_database_name }}"
+        dest: "{{ ara_api_distributed_sqlite_root }}/{{ item }}/ansible.sqlite"
+        remote_src: true
+      loop: "{{ _test_directories }}"
+
+    - name: Test that the API works
+      uri:
+        url: "http://127.0.0.1:8000/{{ item }}/api/v1/"
+        return_content: yes
+      register: api_test
+      loop: "{{ _test_directories }}"
+
+    - name: Print API responses for debug purposes
+      debug:
+        msg: "{{ item['json'] | to_nice_json }}"
+      loop: "{{ api_test.results }}"

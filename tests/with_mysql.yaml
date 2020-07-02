@@ -1,0 +1,82 @@
+---
+# Copyright (c) 2020 The ARA Records Ansible authors
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+- name: Start a mysql container
+  hosts: ara-database-server
+  gather_facts: yes
+  vars_files:
+    - vars/mysql_tests.yaml
+  tasks:
+    - name: Install podman
+      become: yes
+      package:
+        name: podman
+        state: present
+
+    - name: Start a mysql container
+      command: |
+        podman run -d \
+          --name {{ _mysql_container_name }} \
+          -p {{ ara_api_database_port }}:{{ ara_api_database_port }} \
+          -e MYSQL_RANDOM_ROOT_PASSWORD=yes \
+          -e MYSQL_DATABASE={{ ara_api_database_name }} \
+          -e MYSQL_USER={{ ara_api_database_user }} \
+          -e MYSQL_PASSWORD={{ ara_api_database_password }} \
+          {{ _mysql_image_name }}
+      register: db_container
+      retries: 3
+      delay: 5
+      until: db_container is succeeded
+
+    # podman doesn't appear to be able to listen on ipv6 yet: https://github.com/containers/libpod/issues/3245
+    # If we have a node on IPv6, redirect the traffic from v6 to v4 with socat
+    - when: ansible_host | ipv6 != false
+      become: yes
+      block:
+        - name: Install socat
+          package:
+            name: socat
+            state: present
+
+        - name: Setup systemd service
+          copy:
+            dest: /etc/systemd/system/socat-mysql.service
+            owner: root
+            group: root
+            mode: 0644
+            content: |
+              [Unit]
+              Description=socat mysql ipv6 to ipv4
+
+              [Service]
+              ExecStart=/usr/bin/socat TCP6-LISTEN:3306,fork,bind=[{{ ansible_host }}] TCP4:127.0.0.1:3306
+
+              [Install]
+              WantedBy=multi-user.target
+
+        - name: Start socat network redirection for mysql over ipv6
+          service:
+            name: socat-mysql
+            state: started
+            enabled: yes
+            daemon_reload: yes
+
+- name: Deploy and test ARA API with mysql
+  hosts: ara-api-server
+  gather_facts: yes
+  vars_files:
+    - vars/mysql_tests.yaml
+  tasks:
+    - name: Set database server host
+      set_fact:
+        ara_api_database_host: "{{ hostvars['database-server']['ansible_host'] }}"
+
+    - name: Set up the API with the ara_api Ansible role
+      include_role:
+        name: ara_api
+        public: yes
+
+    # These are tasks rather than a standalone playbook to give us an easy
+    # access to all the variables within the same play.
+    - include_tasks: test_tasks.yaml

@@ -1,0 +1,40 @@
+---
+# Copyright (c) 2020 The ARA Records Ansible authors
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+- name: Recover postgresql server data
+  hosts: ara-database-server
+  gather_facts: yes
+  vars_files:
+    - vars/postgresql_tests.yaml
+  tasks:
+    - name: Ensure pg_dump is installed
+      become: yes
+      package:
+        name: postgresql
+        state: present
+
+    # The zuul-output directory is retrieved by the fetch-output role
+    # https://opendev.org/zuul/zuul-jobs/src/branch/master/roles/fetch-output
+    - name: Create log directory
+      file:
+        path: "{{ ansible_user_dir }}/zuul-output/logs"
+        state: directory
+        recurse: yes
+
+    - name: Set up postgre password file for passwordless commands
+      lineinfile:
+        path: "{{ ansible_user_dir }}/.pgpass"
+        create: yes
+        line: "127.0.0.1:{{ ara_api_database_port }}:{{ ara_api_database_name }}:{{ ara_api_database_user }}:{{ ara_api_database_password }}"
+        mode: 0600
+
+    # Dump is suffixed by .txt so we don't need magic mimetypes when
+    # viewing on the web.
+    - name: Dump database file
+      command: |
+        pg_dump -w \
+          --host=127.0.0.1 \
+          --username={{ ara_api_database_user }} \
+          --dbname={{ ara_api_database_name }} \
+          --file={{ ansible_user_dir }}/zuul-output/logs/pg_dump.sql.txt

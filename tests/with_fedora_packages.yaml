@@ -1,0 +1,32 @@
+---
+# Copyright (c) 2020 The ARA Records Ansible authors
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+- name: Test the ARA API with fedora packages
+  hosts: all
+  gather_facts: yes
+  vars:
+    ara_api_install_method: distribution
+    ara_api_version: latest
+    ara_api_root_dir: "{{ ansible_user_dir }}/.ara-tests"
+    ara_api_secret_key: testing
+    ara_api_debug: true
+    ara_api_log_level: DEBUG
+  tasks:
+    - block:
+        - name: Set up the API with the ara_api role
+          include_role:
+            name: ara_api
+            public: yes
+
+        # Despite installing from packages, we need access to the source for
+        # running tests
+        - name: Prepare git repository for ara
+          git:
+            repo: "{{ ara_api_source }}"
+            dest: "{{ ara_api_source_checkout }}"
+            version: "{{ (ara_api_version == 'latest') | ternary('HEAD', ara_api_version) }}"
+
+        # These are tasks rather than a standalone playbook to give us an easy
+        # access to all the variables within the same play.
+        - include_tasks: test_tasks.yaml

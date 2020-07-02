@@ -1,0 +1,11 @@
+---
+# Copyright (c) 2020 The ARA Records Ansible authors
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+- name: Allow networking between multiple nodes
+  hosts: all
+  tasks:
+    # https://opendev.org/zuul/zuul-jobs/src/branch/master/roles/multi-node-firewall
+    - name: Set up multi-node firewall
+      include_role:
+        name: multi-node-firewall
