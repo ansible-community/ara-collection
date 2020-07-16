@@ -1,6 +1,6 @@
-namespace: arecordsansible
+namespace: recordsansible
 name: ara
-version: 0.0.3
+version: 0.0.4
 readme: README.md
 authors:
   - ARA Records Ansible (https://github.com/ansible-community/ara)
