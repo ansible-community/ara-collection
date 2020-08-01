@@ -27,3 +27,8 @@
   package:
     name: "{{ ara_distribution_packages }}"
     state: present
+
+# This lets us use "path_with_virtualenv" without conditions everywhere
+- name: Don't prefix the virtualenv bin directory to PATH
+  set_fact:
+    path_with_virtualenv: "{{ ansible_env.PATH }}"
