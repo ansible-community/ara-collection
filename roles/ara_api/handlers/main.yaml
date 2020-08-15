@@ -22,5 +22,14 @@
     name: ara-api
     state: restarted
   when:
-    - ara_api_wsgi_server is not none
+    - ara_api_wsgi_server == "gunicorn"
+    - ara_api_service_enabled is not changed
+
+- name: restart apache
+  become: yes
+  service:
+    name: "{{ ara_api_apache_service }}"
+    state: restarted
+  when:
+    - ara_api_wsgi_server == "mod_wsgi"
     - ara_api_service_enabled is not changed

@@ -1,0 +1,40 @@
+# Copyright (c) 2020 The ARA Records Ansible authors
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+- name: Find path to wsgi application for configuring the vhost
+  environment:
+    PATH: "{{ path_with_virtualenv }}"
+  command: python3 -m ara.setup.path
+  changed_when: false
+  register: _ara_path
+
+- become: yes
+  block:
+    - name: Install apache and mod_wsgi
+      package:
+        name: "{{ ara_api_mod_wsgi_packages }}"
+        state: present
+
+    - name: Configure vhost
+      template:
+        src: ara-api-mod_wsgi.conf.j2
+        dest: "{{ ara_api_apache_config }}/ara-api.conf"
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - restart apache
+
+    - name: Ensure vhost is enabled on Debian family
+      command: a2ensite ara-api.conf
+      when: ansible_os_family == "Debian"
+      notify:
+        - restart apache
+
+    - name: Enable and start apache with mod_wsgi
+      service:
+        name: "{{ ara_api_apache_service }}"
+        state: started
+        enabled: yes
+        daemon_reload: yes
+      register: ara_api_service_enabled

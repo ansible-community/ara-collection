@@ -1,0 +1,17 @@
+- name: Deploy an ARA API server with Apache and mod_wsgi
+  hosts: ara-api
+  gather_facts: yes
+  become: yes
+  vars:
+    ara_api_venv: false
+    ara_api_root_dir: /var/lib/ara
+    ara_api_fqdn: api.ara.tld
+    ara_api_wsgi_server: mod_wsgi
+    ara_api_allowed_hosts:
+      - api.ara.tld
+    # TODO: Figure out the right settings for ara-web
+    ara_api_cors_origin_allow_all: true
+    ara_api_cors_origin_whitelist:
+      - http://api.ara.tld
+  roles:
+    - ara_api

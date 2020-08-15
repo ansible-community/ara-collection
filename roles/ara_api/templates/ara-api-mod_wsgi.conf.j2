@@ -1,0 +1,22 @@
+<VirtualHost *:80>
+    ServerAdmin ara@recordsansible
+    ServerName {{ ara_api_fqdn }}
+    ServerSignature Off
+
+    ErrorLog {{ ara_api_apache_logs }}/{{ ara_api_fqdn }}_error.log
+    CustomLog {{ ara_api_apache_logs }}/{{ ara_api_fqdn }}_access.log combined
+
+    SetEnv ARA_SETTINGS {{ ara_api_settings }}
+    WSGIScriptAlias / {{ _ara_path.stdout }}/server/wsgi.py
+    WSGIProcessGroup ara
+    WSGIApplicationGroup %{GLOBAL}
+    {#- TODO: Support virtualenvs with python-home -#}
+    WSGIDaemonProcess ara user={{ ara_api_apache_user }} group={{ ara_api_apache_group }} processes={{ ara_api_wsgi_workers }} threads=1
+
+    <Directory {{ _ara_path.stdout }}/server >
+        <Files wsgi.py>
+            Allow from all
+            Satisfy Any
+        </Files>
+    </Directory>
+</VirtualHost>
