@@ -204,3 +204,16 @@ ara_api_database_conn_max_age: 0
 # timezone but Ansible doesn't provide, for example, an ansible_timezone fact
 # that we could use here. With that in mind, UTC is the best default for now.
 ara_api_time_zone: UTC
+
+# ARA cleanup settings
+# The following settings configure daily maintenance cronjobs
+ara_api_configure_cron: false
+
+# When configuring cronjobs, only provide the arguments for the ara CLI utility
+ara_api_cleanup_crons:
+  - name: ara_api expire running playbooks
+    arguments: 'expire --server http://localhost:8000 --client http --confirm --hours 24'
+    special_time: 'daily' # you can also use other time arguments from the cron module
+  - name: ara_api prune old reports
+    arguments: 'playbook prune --server http://localhost:8000 --client http --confirm --days 30'
+    special_time: 'daily'

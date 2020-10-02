@@ -110,3 +110,18 @@
   notify:
     - restart ara-api
   no_log: "{{ ara_api_secure_logging }}"
+
+- name: Set up ARA API cronjobs
+  cron:
+    name: "{{ job['name'] }}"
+    special_time: "{{ job['special_time'] | default(omit) }}"
+    minute: "{{ job['minute'] | default(omit) }}"
+    hour: "{{ job['hour'] | default(omit) }}"
+    day: "{{ job['day'] | default(omit) }}"
+    weekday: "{{ job['weekday'] | default(omit) }}"
+    month: "{{ job['month'] | default(omit) }}"
+    job: "{{ ara_api_venv_path }}/bin/ara {{ job['arguments'] }} >/dev/null 2>&1"
+  loop: "{{ ara_api_cleanup_crons }}"
+  loop_control:
+    loop_var: 'job'
+  when: ara_api_configure_cron
