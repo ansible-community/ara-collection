@@ -1,0 +1,12 @@
+---
+- name: Install required packages from Pypi
+  pip:
+    name: ara[server]
+    virtualenv: "{{ ara_api_venv_path }}"
+    state: present
+    virtualenv_command: /usr/bin/python3 -m venv
+
+- name: Prefix the virtualenv bin directory to PATH
+  set_fact:
+    path_with_virtualenv: "{{ ara_api_venv_path }}/bin:{{ ansible_env.PATH }}"
+  when: ara_api_venv | bool
