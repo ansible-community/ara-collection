@@ -1,33 +1,12 @@
 ---
 - name: Install required packages from Pypi
   pip:
-    name: "{{ pip_pkg }}"
+    name: ara[server]
     virtualenv: "{{ ara_api_venv_path }}"
     state: present
     virtualenv_command: /usr/bin/python3 -m venv
-  loop:
-    - django
-    - django-cors-headers
-    - django-filter
-    - django-health-check
-    - django-utils
-    - djangorestframework
-    - dynaconf
-    - health-check
-    - pygments
-    - tzlocal
-    - whitenoise
-  loop_control:
-    loop_var: pip_pkg
 
 - name: Prefix the virtualenv bin directory to PATH
   set_fact:
     path_with_virtualenv: "{{ ara_api_venv_path }}/bin:{{ ansible_env.PATH }}"
   when: ara_api_venv | bool
-
-- name: Install ARA from Pypi
-  pip:
-    name: ara
-    version: "{{ ara_api_version }}"
-    virtualenv: "{{ ara_api_venv_path }}"
-    state: present
