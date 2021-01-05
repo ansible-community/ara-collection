@@ -28,3 +28,5 @@
     ARA_SETTINGS: "{{ ara_api_settings }}"
     PATH: "{{ path_with_virtualenv }}"
   command: ara-manage migrate
+  register: _ara_sql_migrations
+  changed_when: "'No migrations to apply' not in _ara_sql_migrations.stdout"

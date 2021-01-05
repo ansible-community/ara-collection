@@ -52,3 +52,5 @@
   retries: 3
   delay: 5
   until: _ara_sql_migrations is succeeded
+  register: _ara_sql_migrations
+  changed_when: "'No migrations to apply' not in _ara_sql_migrations.stdout"
