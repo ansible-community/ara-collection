@@ -110,3 +110,17 @@
   notify:
     - restart ara-api
   no_log: "{{ ara_api_secure_logging }}"
+
+- name: Set up ARA API cronjobs
+  cron:
+    name: "{{ job['name'] }}"
+    special_time: daily
+    job: "{{ job['command'] }}"
+  loop:
+    - name: ara_api expire running playbooks
+      command: "{{ ara_api_venv_path }}/bin/ara expire --server http://localhost:8000 --client http --confirm --hours {{ ara_api_expire_hours }} >/dev/null 2>&1"
+    - name: ara_api prune old reports
+      command: "{{ ara_api_venv_path }}/bin/ara playbook prune --server http://localhost:8000 --client http --confirm --days {{ ara_api_prune_days }} >/dev/null 2>&1"
+  loop_control:
+    loop_var: 'job'
+  when: ara_api_configure_cron
