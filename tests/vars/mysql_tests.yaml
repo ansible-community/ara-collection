@@ -10,6 +10,8 @@ ara_api_database_name: ara
 ara_api_database_user: ara
 ara_api_database_password: password
 ara_api_database_port: 3306
+# Configure cleanup crons to exercise the code path during tests
+ara_api_configure_cron: true
 # The host is defined dynamically based on the address of the database server
 # ara_api_database_host: 127.0.0.1
 _mysql_container_name: ara_tests_mariadb
