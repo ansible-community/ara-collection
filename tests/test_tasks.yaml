@@ -35,6 +35,28 @@
         state: "{{ _install_ansible_state | default(omit, True) }}"
         virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
         virtualenv_command: /usr/bin/python3 -m venv
+      register: _ansible_pip_install
+
+  rescue:
+    # Installation of Ansible's cryptography dependency can fail to install with older versions of pip
+    # with "No module named 'setuptools_rust': "https://github.com/pyca/cryptography/issues/5771
+    - name: Update pip to workaround setuptools_rust issue
+      pip:
+        name: pip
+        state: latest
+        virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
+        virtualenv_command: /usr/bin/python3 -m venv
+      register: _pip_update
+      when: "'setuptools_rust' in _ansible_pip_install.msg"
+
+    - name: Retry installing Ansible with an up to date pip
+      pip:
+        name: "{{ ara_tests_ansible_name }}"
+        version: "{{ _install_ansible_version | default(omit, True) }}"
+        state: "{{ _install_ansible_state | default(omit, True) }}"
+        virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
+        virtualenv_command: /usr/bin/python3 -m venv
+      when: _pip_update is changed
 
 - name: Install Ansible from distribution packages
   become: yes
