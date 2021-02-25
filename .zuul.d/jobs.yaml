@@ -30,6 +30,8 @@
       - setup.cfg
       - requirements.txt
       - test-requirements.txt
+      - README.md
+      - galaxy.yml
     vars:
       ara_api_source: "{{ ansible_user_dir }}/src/opendev.org/recordsansible/ara"
       ara_tests_ansible_name: "{{ ansible_user_dir }}/src/github.com/ansible/ansible"

@@ -1,9 +1,9 @@
 # ara-collection
 
-Opinionated collection of Ansible roles for deploying and configuring
-[ARA Records Ansible](https://github.com/ansible-community/ara).
+Opinionated collection of Ansible roles available on [Ansible Galaxy](https://galaxy.ansible.com/recordsansible/ara)
+for deploying and configuring [ARA Records Ansible](https://github.com/ansible-community/ara).
 
-ARA Records Ansible playbooks and makes them easier to understand and troubleshoot.
+ARA Records Ansible and makes it easier to understand and troubleshoot.
 
 ![ara](https://raw.githubusercontent.com/ansible-community/ara-collection/master/doc/source/_static/ara-with-icon.png)
 
@@ -36,7 +36,7 @@ Documentation: [roles/ara_frontend_nginx/README.md](https://github.com/ansible-c
 - Slack: https://arecordsansible.slack.com ([invitation link](https://join.slack.com/t/arecordsansible/shared_invite/enQtMjMxNzI4ODAxMDQxLTU2NTU3YjMwYzRlYmRkZTVjZTFiOWIxNjE5NGRhMDQ3ZTgzZmQyZTY2NzY5YmZmNDA5ZWY4YTY1Y2Y1ODBmNzc))
 
 - Website and blog: https://ara.recordsansible.org
-- Twitter: https://twitter.com/arecordsansible
+- Twitter: https://twitter.com/recordsansible
 
 # Contributing
 
