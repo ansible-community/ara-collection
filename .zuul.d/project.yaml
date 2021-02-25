@@ -1,17 +1,7 @@
 - project:
     check:
       jobs:
-        # TODO: https://github.com/ansible-community/ara/issues/149
-        - ara-role-api-distributed-sqlite:
-            voting: false
-        - ara-role-api-mysql
-        - ara-role-api-postgresql
-        - ara-role-api-fedora-packages:
-            voting: false
+        - noop
     gate:
       jobs:
-        - ara-role-api-mysql
-        - ara-role-api-postgresql
-    post:
-      jobs:
-        - ara-collection-upload-git-mirror
+        - noop

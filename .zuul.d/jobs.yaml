@@ -1,16 +1,4 @@
 - job:
-    name: ara-collection-upload-git-mirror
-    parent: upload-git-mirror
-    description: Mirrors recordsansible/ara-collection to ansible-community/ara-collection
-    allowed-projects: recordsansible/ara-collection
-    vars:
-      git_mirror_repository: ansible-community/ara-collection
-    secrets:
-      - name: git_mirror_credentials
-        secret: ara_collection_git_mirror_credentials
-        pass-to-parent: true
-
-- job:
     name: ara-role-integration-base
     parent: base
     allowed-projects:
