@@ -23,6 +23,8 @@ ara_api_required_packages:
   - git
   - python3
   - policycoreutils-python-utils
+  # cronie provides crontab
+  - cronie
 
 ara_api_postgresql_packages:
   - postgresql
