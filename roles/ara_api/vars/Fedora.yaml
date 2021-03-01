@@ -25,6 +25,8 @@ ara_api_required_packages:
   - python3-virtualenv
   - python3-libselinux
   - policycoreutils-python-utils
+  # cronie provides crontab
+  - cronie
 
 ara_api_postgresql_packages:
   - postgresql
