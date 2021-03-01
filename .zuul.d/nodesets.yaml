@@ -1,0 +1,50 @@
+# Nodeset used to test instances of ARA API deployed on different operating
+# systems against MySQL and PostgreSQL simultaneously.
+- nodeset:
+    name: ara-database-server-multinode
+    nodes:
+      - name: database-server
+        label: centos-8-1vcpu
+      - name: ubuntu-bionic
+        label: ubuntu-bionic-1vcpu
+      - name: fedora-32
+        label: fedora-32-1vcpu
+      - name: centos-8
+        label: centos-8-1vcpu
+    groups:
+      - name: ara-database-server
+        nodes:
+          - database-server
+      - name: ara-api-server
+        nodes:
+          - ubuntu-bionic
+          - fedora-32
+          - centos-8
+
+# Nodeset used to test instances of ARA API deployed on different operating
+# systems simultaneously.
+- nodeset:
+    name: ara-multinode
+    nodes:
+      - name: ubuntu-bionic
+        label: ubuntu-bionic-1vcpu
+      - name: fedora-32
+        label: fedora-32-1vcpu
+      - name: centos-8
+        label: centos-8-1vcpu
+    groups:
+      - name: ara-api-server
+        nodes:
+          - ubuntu-bionic
+          - fedora-32
+          - centos-8
+
+- nodeset:
+    name: ara-fedora-32
+    nodes:
+      - name: fedora-32
+        label: fedora-32-1vcpu
+    groups:
+      - name: ara-api-server
+        nodes:
+          - fedora-32

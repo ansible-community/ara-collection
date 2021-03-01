@@ -1,7 +1,14 @@
 - project:
+    merge-mode: squash-merge
     check:
       jobs:
-        - noop
+        - ara-role-api-distributed-sqlite
+        - ara-role-api-mysql
+        - ara-role-api-postgresql
+        - ara-role-api-fedora-packages:
+            voting: false
     gate:
       jobs:
-        - noop
+        - ara-role-api-distributed-sqlite
+        - ara-role-api-mysql
+        - ara-role-api-postgresql
