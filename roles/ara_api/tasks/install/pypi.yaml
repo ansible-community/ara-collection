@@ -2,9 +2,11 @@
 - name: Install required packages from Pypi
   pip:
     name: ara[server]
-    state: present
+    state: "{% if ara_api_version == 'latest' %}latest{% else %}present{% endif %}"
+    version: "{% if ara_api_version != 'latest' %}{{ ara_api_version }}{% else %}{{ omit }}{% endif %}"
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
+  notify: restart ara-api
 
 - name: Prefix the virtualenv bin directory to PATH
   set_fact:
