@@ -105,7 +105,7 @@ ara_api_settings: "{{ ara_api_base_dir }}/settings.yaml"
 ara_api_env: default
 
 # ARA_EXTERNAL_AUTH - External authentication settings
-ara_api_external_auth: null
+ara_api_external_auth: false
 
 # ARA_READ_LOGIN_REQUIRED - Whether authentication is required for reading data
 ara_api_read_login_required: false
@@ -203,7 +203,7 @@ ara_api_database_port: null
 ara_api_database_conn_max_age: 0
 
 # ARA_DATABASE_OPTIONS - Django's OPTIONS database setting
-ara_api_database_optiones: null
+ara_api_database_options: null
 
 # ARA_TIME_ZONE - Time zone used when storing and returning results
 # Note: the default provided by ARA is dynamic and is set to the local system
