@@ -13,7 +13,7 @@ server {
     error_log  /var/log/nginx/{{ ara_api_fqdn }}_error.log;
 
     # There's nothing at /, redirect it to the actual API for convenience
-    location / {
+    location = / {
       return 301 http://{{ ara_api_fqdn }}/api/v1/;
     }
 
