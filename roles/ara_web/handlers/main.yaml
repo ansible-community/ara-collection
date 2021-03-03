@@ -29,3 +29,4 @@
     state: restarted
   when:
     - ara_web_service_enabled is not changed
+    - ara_web_dev_server | bool
