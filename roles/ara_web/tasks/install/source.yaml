@@ -86,6 +86,7 @@
         name: ara-web
         state: stopped
         enabled: no
+      ignore_errors: yes
 
     - name: Ensure systemd unit file is not configured
       become: yes
