@@ -19,7 +19,7 @@
 - name: Validate if the distribution is supported
   fail:
     msg: |
-      {{ ansible_distribution }} does not support installation from distribution packages yet.
+      {{ ansible_facts['distribution'] }} does not support installation from distribution packages yet.
   when: ara_distribution_packages | length == 0
 
 - name: Install ara from distribution packages
@@ -31,4 +31,4 @@
 # This lets us use "path_with_virtualenv" without conditions everywhere
 - name: Don't prefix the virtualenv bin directory to PATH
   set_fact:
-    path_with_virtualenv: "{{ ansible_env.PATH }}"
+    path_with_virtualenv: "{{ ansible_facts['env']['PATH'] }}"

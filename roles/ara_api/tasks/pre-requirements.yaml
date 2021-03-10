@@ -25,8 +25,8 @@
     state: present
   become: yes
   when:
-    - ansible_distribution | lower in ["redhat", "centos"]
-    - ansible_distribution_major_version == "8"
+    - ansible_facts['distribution'] | lower in ["redhat", "centos"]
+    - ansible_facts['distribution_major_version'] == "8"
 
 # The ansible_python_version fact might end up retrieving the version of
 # python2 so we need to explicitely get the version of python 3 available.
@@ -48,7 +48,7 @@
 
 - name: Retrieve list of missing required packages
   set_fact:
-    ara_api_missing_packages: "{{ ara_api_required_packages | difference(ansible_facts.packages.keys()) }}"
+    ara_api_missing_packages: "{{ ara_api_required_packages | difference(ansible_facts['packages'].keys()) }}"
 
 # Only attempt to elevate privileges if there are any missing packages
 - when: ara_api_missing_packages | length > 0
