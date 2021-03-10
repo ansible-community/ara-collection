@@ -9,6 +9,7 @@ server {
     keepalive_timeout 5;
     server_name {{ ara_api_fqdn }};
 
+    client_max_body_size {{ ara_nginx_client_max_body_size }};
     access_log /var/log/nginx/{{ ara_api_fqdn }}_access.log;
     error_log  /var/log/nginx/{{ ara_api_fqdn }}_error.log;
 
