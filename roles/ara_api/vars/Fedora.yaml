@@ -31,6 +31,7 @@ ara_api_required_packages:
 ara_api_postgresql_packages:
   - postgresql
   - postgresql-devel
+  - python3-devel
   - gcc
 
 ara_api_mysql_packages:
