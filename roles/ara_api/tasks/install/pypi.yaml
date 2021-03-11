@@ -10,5 +10,5 @@
 
 - name: Prefix the virtualenv bin directory to PATH
   set_fact:
-    path_with_virtualenv: "{{ ara_api_venv_path }}/bin:{{ ansible_env.PATH }}"
+    path_with_virtualenv: "{{ ara_api_venv_path }}/bin:{{ ansible_facts['env']['PATH'] }}"
   when: ara_api_venv | bool

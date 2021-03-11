@@ -68,4 +68,4 @@ ara_web_frontend_server: null
 ara_web_frontend_vhost: null
 
 # When using a frontend server, the hostname to listen on
-ara_web_fqdn: "{{ ansible_default_ipv4['address'] }}"
+ara_web_fqdn: "{{ ansible_facts['default_ipv4']['address'] }}"

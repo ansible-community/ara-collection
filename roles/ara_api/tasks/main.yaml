@@ -19,8 +19,8 @@
 - name: Include OS family/distribution specific variables
   include_vars: "{{ item }}"
   with_first_found:
-    - "{{ ansible_distribution }}.yaml"
-    - "{{ ansible_os_family }}.yaml"
+    - "{{ ansible_facts['distribution'] }}.yaml"
+    - "{{ ansible_facts['os_family'] }}.yaml"
 
 - name: Ensure pre-requirements for running are met
   include_tasks: pre-requirements.yaml

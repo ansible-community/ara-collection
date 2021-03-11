@@ -20,7 +20,7 @@
 - name: restore selinux context for static files
   become: "{{ (ansible_user_dir in ara_web_static_dir) | ternary(false, true) }}"
   command: "restorecon -Rv {{ ara_web_static_dir }}"
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: restart ara-web
   become: true
