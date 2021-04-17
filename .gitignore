@@ -1,2 +1,4 @@
 # ansible-galaxy collection build generates .tar.gz files
 *.tar.gz
+.pyc
+__pycache__
