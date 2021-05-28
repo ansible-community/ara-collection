@@ -19,9 +19,6 @@
 # ARA has not been packaged for CentOS or RHEL yet
 ara_distribution_packages: []
 
-# Python version used, no dots, must be at least 3.6
-ara_python_version: 38 # Python 3.8
-
 ara_api_required_packages:
   - git
   - python{{ ara_python_version }}

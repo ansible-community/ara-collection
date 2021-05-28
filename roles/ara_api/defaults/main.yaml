@@ -59,6 +59,10 @@ ara_api_source_checkout: "{{ ara_api_root_dir }}/git/ara"
 # When using "latest" as the pypi version, the latest release will be used
 ara_api_version: master
 
+# RHEL/CentOS only: Python version used, no dots.
+# This will install the desired python version from AppStreams
+ara_python_version: 38 # Python 3.8
+
 # The frontend/web server for serving the ARA API
 # It is recommended to specify a web server when deploying a production environment.
 # - null [default]: No frontend server will be set up.
