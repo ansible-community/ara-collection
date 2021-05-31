@@ -21,7 +21,7 @@
 # but we want to use the non-system one. Install it if it's missing.
 - name: Ensure python3 is installed for EL8
   package:
-    name: python3
+    name: python{{ ara_python_version }}
     state: present
   become: yes
   when:
