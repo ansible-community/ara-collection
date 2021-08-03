@@ -227,5 +227,3 @@ ara_api_cleanup_crons:
   - name: ara_api prune old reports
     arguments: 'playbook prune --server http://localhost:8000 --client http --confirm --days 30'
     special_time: 'daily'
-
-#.

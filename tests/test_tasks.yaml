@@ -28,6 +28,11 @@
         _install_ansible_state: latest
       when: ara_tests_ansible_version == "latest"
 
+    - name: Install dependencies
+      pip:
+        name: setuptools_rust
+        state: present
+
     - name: Install Ansible alongside ARA
       pip:
         name: "{{ ara_tests_ansible_name }}"
