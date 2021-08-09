@@ -37,7 +37,9 @@
 # https://docs.djangoproject.com/en/2.2/ref/databases/#postgresql-notes
 - name: Ensure psycopg2 is installed
   pip:
-    name: psycopg2
+    # Pin psycopg2 until we upgrade to django 3.2 LTS
+    # https://github.com/ansible-community/ara/issues/320
+    name: psycopg2<2.9
     state: present
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
