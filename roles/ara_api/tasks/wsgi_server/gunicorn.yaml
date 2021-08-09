@@ -57,7 +57,7 @@
 
     - name: Set up systemd unit file for gunicorn to run the ARA API
       template:
-        src: ara-api.service.j2
+        src: ara-api-gunicorn.service.j2
         dest: /etc/systemd/system/ara-api.service
         owner: root
         group: root

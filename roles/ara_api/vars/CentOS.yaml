@@ -38,3 +38,13 @@ ara_api_mysql_packages:
   - redhat-rpm-config
   - python3-devel
   - gcc
+
+ara_api_mod_wsgi_packages:
+  - httpd
+  - python3-mod_wsgi
+
+ara_api_apache_config: /etc/httpd/conf.d
+ara_api_apache_logs: /var/log/httpd
+ara_api_apache_service: httpd
+ara_api_apache_user: apache
+ara_api_apache_group: apache

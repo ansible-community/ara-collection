@@ -16,6 +16,13 @@
 #  You should have received a copy of the GNU General Public License
 #  along with ARA Records Ansible. If not, see <http://www.gnu.org/licenses/>.
 
+- name: Fail pre-emptively if mod_wsgi configuration is unsupported
+  fail:
+    msg: mod_wsgi is not yet supported with virtualenvs
+  when:
+    - ara_api_wsgi_server == "mod_wsgi"
+    - ara_api_venv is true
+
 # EL8 doesn't install a python3 interpreter by default.
 # System packages rely on /usr/libexec/platform-python and Ansible will use it
 # but we want to use the non-system one. Install it if it's missing.
