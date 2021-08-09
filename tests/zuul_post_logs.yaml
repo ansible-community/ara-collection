@@ -16,27 +16,35 @@
         state: directory
         recurse: yes
 
-    - name: Recover integration test data
-      command: cp -rp {{ ara_api_root_dir }}/server {{ ansible_user_dir }}/zuul-output/logs/server
-      ignore_errors: yes
+    - when: groups['all'] | length > 1
+      name: Prepare logs when running multi-node
+      block:
+        - name: Recover integration test data
+          command: cp -rp {{ ara_api_root_dir }}/server {{ ansible_user_dir }}/zuul-output/logs/{{ inventory_hostname }}
+          ignore_errors: yes
 
-    - name: Link the static report to the Zuul build with multiple nodes
-      zuul_return:
-        data:
-          zuul:
-            artifacts:
-               - name: "Integration test static report for {{ inventory_hostname }}"
-                 url: "{{ inventory_hostname }}/server/static/index.html"
-      when: groups['all'] | length > 1
+        - name: Link the static report to the Zuul build
+          zuul_return:
+            data:
+              zuul:
+                artifacts:
+                  - name: "Integration test static report for {{ inventory_hostname }}"
+                    url: "{{ inventory_hostname }}/static/index.html"
 
-    - name: Link the static report to the Zuul build with a single node
-      zuul_return:
-        data:
-          zuul:
-            artifacts:
-               - name: Integration test static report
-                 url: "server/static/index.html"
-      when: groups['all'] | length == 1
+    - when: groups['all'] | length == 1
+      name: Prepare logs without multi-node
+      block:
+        - name: Recover integration test data
+          command: cp -rp {{ ara_api_root_dir }}/server {{ ansible_user_dir }}/zuul-output/logs/server
+          ignore_errors: yes
+
+        - name: Link the static report to the Zuul build
+          zuul_return:
+            data:
+              zuul:
+                artifacts:
+                  - name: Integration test static report
+                    url: "server/static/index.html"
 
 # Temporarily disable this to prevent "Executing local code is prohibited"
 # https://review.opendev.org/#/c/742229/
