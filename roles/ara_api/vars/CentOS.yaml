@@ -19,9 +19,12 @@
 # ARA has not been packaged for CentOS or RHEL yet
 ara_distribution_packages: []
 
+# EL8 doesn't install a python3 interpreter by default.
+# System packages rely on /usr/libexec/platform-python and Ansible will use it
+# but we want to use the non-system one. Install it if it's missing.
 ara_api_required_packages:
   - git
-  - python3
+  - python36
   - policycoreutils-python-utils
   # cronie provides crontab
   - cronie
@@ -29,12 +32,12 @@ ara_api_required_packages:
 ara_api_postgresql_packages:
   - postgresql
   - postgresql-devel
-  - python3-devel
+  - python36-devel
   - gcc
 
 ara_api_mysql_packages:
   - mariadb
   - mariadb-connector-c-devel
   - redhat-rpm-config
-  - python3-devel
+  - python36-devel
   - gcc
