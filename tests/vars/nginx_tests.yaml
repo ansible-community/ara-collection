@@ -1,0 +1,31 @@
+ara_tests_cleanup: true
+ara_api_root_dir: "{{ ansible_user_dir }}/.ara-tests"
+ara_api_secret_key: testing
+ara_api_debug: true
+ara_api_log_level: DEBUG
+# disable no_log for potentially sensitive tasks in order to troubleshoot them in integration tests
+ara_api_secure_logging: false
+# Configure cleanup crons to exercise the code path during tests
+ara_api_configure_cron: true
+
+# Set up gunicorn with nginx in front for external authentication
+# TODO: add ssl support https://github.com/ansible-community/ara-collection/issues/37
+ara_api_fqdn: 127.0.0.1
+ara_api_allowed_hosts:
+  - "{{ ara_api_fqdn }}"
+
+ara_api_wsgi_server: gunicorn
+ara_api_frontend_server: nginx
+
+# Configuration to the callback plugin
+ara_api_client: http
+ara_api_server: http://127.0.0.1
+ara_api_username: ara
+ara_api_password: hunter2
+
+# Enable external authentication and set up /etc/nginx/.htpasswd
+ara_api_external_auth: true
+ara_api_external_auth_file: /etc/nginx/.htpasswd
+ara_api_external_auth_users:
+  - username: "{{ ara_api_username }}"
+    password: "{{ ara_api_password }}"

@@ -38,6 +38,23 @@
 
     - when: ara_api_fqdn is defined
       block:
+        # TODO: htpasswd has moved to community.general
+        # https://github.com/ansible/ansible/blob/7450e87615b0d9b1503a0f966bd3327901decb75/lib/ansible/config/ansible_builtin_runtime.yml#L3195-L3196
+        - name: Configure users in .htpasswd for authentication
+          vars:
+            # htpasswd requires passlib which is installed for the same python interpreter as ara
+            ansible_python_interpreter: "{{ ara_api_venv | bool | ternary(ara_api_venv_path + '/bin/python3', '/usr/bin/python3') }}"
+          htpasswd:
+            path: "{{ ara_api_external_auth_file }}"
+            username: "{{ item.username }}"
+            password: "{{ item.password }}"
+            owner: "{{ ara_nginx_user }}"
+            group: "{{ ara_nginx_group }}"
+            mode: 0600
+          loop: "{{ ara_api_external_auth_users }}"
+          no_log: "{{ ara_api_secure_logging }}"
+          when: ara_api_external_auth
+
         - name: Set up the ARA API nginx vhost
           template:
             src: "{{ ara_api_frontend_vhost | default('ara-api.conf.j2', True) }}"

@@ -105,7 +105,24 @@ ara_api_settings: "{{ ara_api_base_dir }}/settings.yaml"
 ara_api_env: default
 
 # ARA_EXTERNAL_AUTH - External authentication settings
+# Read more about setting up authentication in the documentation:
+# https://ara.readthedocs.io/en/latest/api-security.html
 ara_api_external_auth: false
+
+# Path to a .htpasswd file that will be managed by the role if ara_api_external_auth is true.
+ara_api_external_auth_file: /etc/nginx/.htpasswd
+
+# A list of usernames and passwords to encrypt into a .htpasswd file like so:
+# ara_nginx_external_auth_users:
+#   - username: ara
+#     password: hunter2
+#   - username: admin
+#     password: *******
+#
+# The role does NOT supply a default: it must be provided if ara_api_external_auth is enabled.
+# They can be provided in clear text but it is recommended to use ansible-vault so ara doesn't record them.
+# https://docs.ansible.com/ansible/latest/user_guide/vault.html
+ara_api_external_auth_users: []
 
 # ARA_READ_LOGIN_REQUIRED - Whether authentication is required for reading data
 ara_api_read_login_required: false

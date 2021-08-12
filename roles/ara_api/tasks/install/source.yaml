@@ -29,6 +29,14 @@
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
 
+- name: Install python-passlib for managing authentication credentials
+  pip:
+    name: passlib
+    state: present
+    virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
+    virtualenv_command: /usr/bin/python3 -m venv
+  when: ara_api_external_auth
+
 - name: Prefix the virtualenv bin directory to PATH
   set_fact:
     path_with_virtualenv: "{{ ara_api_venv_path }}/bin:{{ ansible_facts['env']['PATH'] }}"

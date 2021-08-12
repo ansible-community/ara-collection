@@ -28,6 +28,15 @@
     name: "{{ ara_distribution_packages }}"
     state: present
 
+# TODO: consider putting the name of the package into a variable if distributions
+# other than fedora become supported.
+- name: Install python-passlib for managing authentication credentials
+  become: yes
+  package:
+    name: python3-passlib
+    state: present
+  when: ara_api_external_auth
+
 # This lets us use "path_with_virtualenv" without conditions everywhere
 - name: Don't prefix the virtualenv bin directory to PATH
   set_fact:
