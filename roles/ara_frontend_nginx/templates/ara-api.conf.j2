@@ -13,11 +13,6 @@ server {
     access_log /var/log/nginx/{{ ara_api_fqdn }}_access.log;
     error_log  /var/log/nginx/{{ ara_api_fqdn }}_error.log;
 
-    # There's nothing at /, redirect it to the actual API for convenience
-    location = / {
-      return 301 http://{{ ara_api_fqdn }}/api/v1/;
-    }
-
     location /static {
         expires 7d;
         add_header Cache-Control "public";
