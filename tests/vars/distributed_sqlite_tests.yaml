@@ -1,5 +1,6 @@
 ara_tests_cleanup: true
 ara_api_root_dir: "{{ ansible_user_dir }}/.ara-tests"
+ara_api_database_conn_max_age: 0
 ara_api_distributed_sqlite_root: "{{ ansible_user_dir }}/.ara-tests"
 ara_api_distributed_sqlite_prefix: ara-test-report
 ara_api_wsgi_server: gunicorn
