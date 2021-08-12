@@ -22,7 +22,9 @@
       - galaxy.yml
     vars:
       ara_api_source: "{{ ansible_user_dir }}/src/github.com/ansible-community/ara"
-      ara_tests_ansible_name: "{{ ansible_user_dir }}/src/github.com/ansible/ansible"
+      # If installing from source with ansible/ansible in zuul's required-projects:
+      # ara_tests_ansible_name: "{{ ansible_user_dir }}/src/github.com/ansible/ansible"
+      ara_tests_ansible_name: "ansible"
       ara_tests_ansible_version: null
       ara_api_secure_logging: false
     post-run: tests/zuul_post_logs.yaml
