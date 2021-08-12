@@ -87,6 +87,12 @@
       [ara]
       api_client = {{ ara_api_client | default('offline') }}
       api_server = {{ ara_api_server | default('http://127.0.0.1:8000') }}
+      {% if ara_api_username is defined and ara_api_username %}
+      api_username = {{ ara_api_username }}
+      {% endif %}
+      {% if ara_api_password is defined and ara_api_password %}
+      api_password = {{ ara_api_password }}
+      {% endif %}
       callback_threads = {{ ara_callback_threads | default(1) }}
       {% if _default_labels is defined %}
       default_labels = {{ _default_labels | join(',') }}

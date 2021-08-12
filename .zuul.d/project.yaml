@@ -5,6 +5,7 @@
         - ara-role-api-distributed-sqlite
         - ara-role-api-mysql
         - ara-role-api-postgresql
+        - ara-role-api-gunicorn-nginx
         - ara-role-api-fedora-packages:
             voting: false
     gate:
@@ -12,3 +13,4 @@
         - ara-role-api-distributed-sqlite
         - ara-role-api-mysql
         - ara-role-api-postgresql
+        - ara-role-api-gunicorn-nginx
