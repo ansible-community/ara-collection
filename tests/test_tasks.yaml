@@ -76,16 +76,28 @@
   include_tasks: zuul_metadata.yaml
   when: zuul is defined
 
+- name: Template an ansible.cfg file
+  copy:
+    content: |
+      [defaults]
+      action_plugins = {{ ara_setup_plugins.stdout }}/action
+      callback_plugins = {{ ara_setup_plugins.stdout }}/callback
+      lookup_plugins = {{ ara_setup_plugins.stdout }}/lookup
+
+      [ara]
+      api_client = {{ ara_api_client | default('offline') }}
+      api_server = {{ ara_api_server | default('http://127.0.0.1:8000') }}
+      callback_threads = {{ ara_callback_threads | default(1) }}
+      {% if _default_labels is defined %}
+      default_labels = {{ _default_labels | join(',') }}
+      {% endif %}
+    dest: "{{ ara_api_root_dir }}/server/ansible.cfg"
+
 # These aren't in the same task (i.e, with loop) so we can tell individual test
 # runs apart easily rather than keeping all the output bundled in a single task.
 - environment:
-    ANSIBLE_CALLBACK_PLUGINS: "{{ ara_setup_plugins.stdout }}/callback"
-    ANSIBLE_ACTION_PLUGINS: "{{ ara_setup_plugins.stdout }}/action"
-    ANSIBLE_LOOKUP_PLUGINS: "{{ ara_setup_plugins.stdout }}/lookup"
+    ANSIBLE_CONFIG: "{{ ara_api_root_dir }}/server/ansible.cfg"
     ARA_SETTINGS: "{{ ara_api_settings }}"
-    ARA_API_CLIENT: "{{ ara_api_client | default('offline') }}"
-    ARA_API_SERVER: "{{ ara_api_server | default('http://127.0.0.1:8000') }}"
-    ARA_DEFAULT_LABELS: "{{ _default_labels | join(', ') | default('default-label') }}"
     PATH: "{{ path_with_virtualenv | default('/usr/bin:/usr/local/bin') }}"
   vars:
     _test_root: "{{ ara_api_source_checkout }}/tests/integration"
