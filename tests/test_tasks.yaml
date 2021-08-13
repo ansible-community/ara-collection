@@ -130,8 +130,10 @@
         executable: /bin/bash
       ignore_errors: yes
 
+  always:
+    # Generate a report even if we had a failure in the playbooks above
     - name: Generate static report
       command: ara-manage generate {{ ara_api_root_dir }}/server/static
 
-- name: List static report files
-  command: ls -alR {{ ara_api_root_dir }}/server/static
+    - name: List static report files
+      command: ls -alR {{ ara_api_root_dir }}/server/static
