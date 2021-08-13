@@ -94,4 +94,3 @@
         name: nginx
         state: started
         enabled: yes
-      register: ara_nginx_enabled
