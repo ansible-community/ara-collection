@@ -27,9 +27,22 @@
 
 # Only attempt to elevate privileges if there are any missing packages
 - when: ara_api_missing_packages | length > 0
+  become: yes
   block:
+    # The apt module can not be used for this since it installs python-apt
+    # which may not work until this command fixes the cache.
+    - name: Update apt cache
+      command: apt-get update
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Update yum/dnf cache
+      command: "{{ item }}"
+      loop:
+        - "{{ ansible_pkg_mgr }} clean all"
+        - "{{ ansible_pkg_mgr }} makecache"
+      when: ansible_facts["os_family"] == "RedHat"
+
     - name: Install required packages
-      become: yes
       package:
         name: "{{ ara_api_required_packages }}"
         state: present
