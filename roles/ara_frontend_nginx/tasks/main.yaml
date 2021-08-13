@@ -89,7 +89,10 @@
           notify:
             - restart nginx
 
-    - name: Enable and start nginx
+    - name: Ensure nginx is restarted if need be
+      meta: flush_handlers
+
+    - name: Ensure nginx is started and enabled
       service:
         name: nginx
         state: started
