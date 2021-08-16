@@ -56,8 +56,10 @@
           when: ara_api_external_auth
 
         - name: Set up the ARA API nginx vhost
+          vars:
+            _default_vhost: "{{ ara_api_frontend_ssl | ternary('ara-api-ssl.conf.j2', 'ara-api.conf.j2') }}"
           template:
-            src: "{{ ara_api_frontend_vhost | default('ara-api.conf.j2', True) }}"
+            src: "{{ ara_api_frontend_vhost | default( _default_vhost, True) }}"
             dest: "{{ ara_nginx_config_path }}/ara-api.conf"
           notify:
             - restart nginx
