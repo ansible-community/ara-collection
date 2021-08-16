@@ -72,6 +72,19 @@ ara_api_frontend_server: null
 # Use this variable if you need to have your own custom nginx or apache configuration.
 ara_api_frontend_vhost: null
 
+# Enable https on port 443 in addition to http on port 80
+# Enabling SSL requires specifying the path to your key and certificate via
+# ara_api_frontend_ssl_key and ara_api_frontend_ssl_cert
+ara_api_frontend_ssl: false
+
+# Path to an existing SSL private key provisioned outside of this role
+# ex: /etc/letsencrypt/live/ara.example.org/privkey.pem
+ara_api_frontend_ssl_key: null
+
+# Path to an existing SSL certificate provisioned outside of this role
+# ex: /etc/letsencrypt/live/ara.example.org/fullchain.pem
+ara_api_frontend_ssl_cert: null
+
 # The WSGI server for running ARA's API server
 # - null [default]: No persistent WSGI application server will be set up. Only the offline API client will work.
 # - gunicorn: gunicorn will be installed and set up to run the API as a systemd service.

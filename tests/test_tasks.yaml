@@ -87,6 +87,7 @@
       [ara]
       api_client = {{ ara_api_client | default('offline') }}
       api_server = {{ ara_api_server | default('http://127.0.0.1:8000') }}
+      api_insecure = {{ ara_api_insecure | default('false') }}
       {% if ara_api_username is defined and ara_api_username %}
       api_username = {{ ara_api_username }}
       {% endif %}

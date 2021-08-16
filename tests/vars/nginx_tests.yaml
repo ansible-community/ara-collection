@@ -9,17 +9,22 @@ ara_api_secure_logging: false
 ara_api_configure_cron: true
 
 # Set up gunicorn with nginx in front for external authentication
-# TODO: add ssl support https://github.com/ansible-community/ara-collection/issues/37
-ara_api_fqdn: 127.0.0.1
+ara_api_fqdn: ara.example.org
 ara_api_allowed_hosts:
   - "{{ ara_api_fqdn }}"
 
 ara_api_wsgi_server: gunicorn
 ara_api_frontend_server: nginx
+# Test with SSL enabled (self-signed)
+ara_api_frontend_ssl: true
+ara_api_frontend_ssl_key: /etc/ssl/ara.example.org/privkey.pem
+ara_api_frontend_ssl_cert: /etc/ssl/ara.example.org/cert.pem
+# TODO: Make the callback trust the certificate
+ara_api_insecure: 'true'
 
 # Configuration to the callback plugin
 ara_api_client: http
-ara_api_server: http://127.0.0.1
+ara_api_server: https://ara.example.org
 ara_api_username: ara
 ara_api_password: hunter2
 

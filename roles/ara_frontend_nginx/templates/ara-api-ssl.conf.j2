@@ -8,7 +8,12 @@ upstream ara_api {
 
 server {
     listen 80;
-    keepalive_timeout 5;
+    server_name {{ ara_api_fqdn }};
+    return 301 https://{{ ara_api_fqdn }}$request_uri;
+}
+
+server {
+    listen 443;
     server_name {{ ara_api_fqdn }};
     {% if ara_api_external_auth -%}
     auth_basic "Privileged access";
@@ -19,6 +24,14 @@ server {
     client_max_body_size {{ ara_nginx_client_max_body_size }};
     access_log /var/log/nginx/{{ ara_api_fqdn }}_access.log;
     error_log  /var/log/nginx/{{ ara_api_fqdn }}_error.log;
+
+    ssl on;
+    ssl_certificate {{ ara_api_frontend_ssl_cert }};
+    ssl_certificate_key {{ ara_api_frontend_ssl_key }};
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 10m;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         EECDH+AESGCM:EDH+AESGCM;
 
     location /static {
         expires 7d;
