@@ -27,12 +27,13 @@
 
 # Only attempt to elevate privileges if there are any missing packages
 - when: ara_api_missing_packages | length > 0
-  become: yes
+  become: true
   block:
     # The apt module can not be used for this since it installs python-apt
     # which may not work until this command fixes the cache.
     - name: Update apt cache
-      command: apt-get update
+      apt:
+        update_cache: true
       when: ansible_facts["os_family"] == "Debian"
 
     - name: Update yum/dnf cache
@@ -49,7 +50,10 @@
   rescue:
     - name: Fail due to missing packages
       fail:
-        msg: "Failed to elevate privileges and install missing required packages. Install the following packages before running this role again: {{ ara_missing_packages | join(' ') }}"
+        msg: |
+          Failed to elevate privileges and install missing required packages.
+          Install the following packages before running this role again:
+          {{ ara_missing_packages | join(' ') }}"
 
 # The ansible_python_version fact might end up retrieving the version of
 # python2 so we need to explicitely get the version of python 3 available.

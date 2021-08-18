@@ -23,7 +23,7 @@
   when: ara_distribution_packages | length == 0
 
 - name: Install ara from distribution packages
-  become: yes
+  become: true
   package:
     name: "{{ ara_distribution_packages }}"
     state: present
@@ -31,7 +31,7 @@
 # TODO: consider putting the name of the package into a variable if distributions
 # other than fedora become supported.
 - name: Install python-passlib for managing authentication credentials
-  become: yes
+  become: true
   package:
     name: python3-passlib
     state: present

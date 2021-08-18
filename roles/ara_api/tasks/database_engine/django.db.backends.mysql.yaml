@@ -24,14 +24,17 @@
 - when: _mysql_missing_packages | length > 0
   block:
     - name: Install required packages
-      become: yes
+      become: true
       package:
         name: "{{ ara_api_mysql_packages }}"
         state: present
   rescue:
     - name: Fail due to missing packages
       fail:
-        msg: "Failed to elevate privileges and install missing required packages. Install the following packages before running this role again: {{ _mysql_missing_packages | join(' ') }}"
+        msg: |
+          Failed to elevate privileges and install missing required packages.
+          Install the following packages before running this role again:
+          {{ _mysql_missing_packages | join(' ') }}"
 
 # Django requires mysqclient when using mysql
 # https://docs.djangoproject.com/en/2.2/ref/databases/#mysql-db-api-drivers

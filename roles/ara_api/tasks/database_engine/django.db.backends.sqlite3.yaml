@@ -20,6 +20,7 @@
   become: "{{ (ansible_user_dir in ara_api_database_name) | ternary(false, true) }}"
   file:
     path: "{{ ara_api_database_name | dirname }}"
+    mode: 0750
     state: directory
 
 - name: Run SQL migrations

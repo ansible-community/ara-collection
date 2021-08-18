@@ -17,7 +17,7 @@
 #  along with ARA Records Ansible. If not, see <http://www.gnu.org/licenses/>.
 
 - name: restart ara-api
-  become: yes
+  become: true
   service:
     name: ara-api
     state: restarted
