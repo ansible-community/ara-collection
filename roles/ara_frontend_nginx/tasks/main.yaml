@@ -22,7 +22,7 @@
     - "{{ ansible_facts['distribution'] }}.yaml"
     - "{{ ansible_facts['os_family'] }}.yaml"
 
-- become: yes
+- become: true
   block:
     - name: Install nginx
       package:
@@ -32,8 +32,8 @@
     - name: Set selinux boolean to allow nginx to reverse proxy
       seboolean:
         name: httpd_can_network_connect
-        state: yes
-        persistent: yes
+        state: true
+        persistent: true
       when: ansible_facts['os_family'] == "RedHat"
 
     - when: ara_api_fqdn is defined
@@ -98,4 +98,4 @@
       service:
         name: nginx
         state: started
-        enabled: yes
+        enabled: true

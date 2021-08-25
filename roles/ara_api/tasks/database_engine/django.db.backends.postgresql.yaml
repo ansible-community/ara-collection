@@ -24,14 +24,17 @@
 - when: _postgresql_missing_packages | length > 0
   block:
     - name: Install required packages
-      become: yes
+      become: true
       package:
         name: "{{ ara_api_postgresql_packages }}"
         state: present
   rescue:
     - name: Fail due to missing packages
       fail:
-        msg: "Failed to elevate privileges and install missing required packages. Install the following packages before running this role again: {{ _postgresql_missing_packages | join(' ') }}"
+        msg: |
+          Failed to elevate privileges and install missing required packages.
+          Install the following packages before running this role again
+          {{ _postgresql_missing_packages | join(' ') }}
 
 # Django requires psycopg2 when using postgresql
 # https://docs.djangoproject.com/en/2.2/ref/databases/#postgresql-notes
@@ -54,5 +57,4 @@
   retries: 3
   delay: 5
   until: _ara_sql_migrations is succeeded
-  register: _ara_sql_migrations
   changed_when: "'No migrations to apply' not in _ara_sql_migrations.stdout"

@@ -249,7 +249,7 @@ ara_api_configure_cron: false
 ara_api_cleanup_crons:
   - name: ara_api expire running playbooks
     arguments: 'expire --server http://localhost:8000 --client http --confirm --hours 24'
-    special_time: 'daily' # you can also use other time arguments from the cron module
+    special_time: 'daily'  # you can also use other time arguments from the cron module
   - name: ara_api prune old reports
     arguments: 'playbook prune --server http://localhost:8000 --client http --confirm --days 30'
     special_time: 'daily'
