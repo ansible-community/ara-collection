@@ -30,8 +30,9 @@
   become: true
   block:
     - name: Update apt cache
-      apt:
-        update_cache: true
+      command: apt-get update
+      args:
+        warn: false
       when: ansible_facts["os_family"] == "Debian"
 
     - name: Update yum/dnf cache
