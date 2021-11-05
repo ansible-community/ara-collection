@@ -36,10 +36,13 @@
       when: ansible_facts["os_family"] == "Debian"
 
     - name: Update yum/dnf cache
-      command: "{{ item }}"
-      loop:
-        - "{{ ansible_pkg_mgr }} clean all"
-        - "{{ ansible_pkg_mgr }} makecache"
+      shell: |
+        {{ ansible_pkg_mgr }} clean all
+        {{ ansible_pkg_mgr }} check-update
+      register: yum_update
+      failed_when: yum_update['rc'] not in [0, 100]
+      args:
+        warn: false
       when: ansible_facts["os_family"] == "RedHat"
 
     - name: Install required packages
