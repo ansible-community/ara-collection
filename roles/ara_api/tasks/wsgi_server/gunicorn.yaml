@@ -61,7 +61,7 @@
       command: "semodule -i {{ ara_api_root_dir }}/ara-gunicorn.pp"
       when:
           - ansible_facts['os_family'] == "RedHat"
-          - "'ara-gunicorn' not in ara_selinux_modules_loaded" or ara_selinux_module_file['changed']
+          - ("'ara-gunicorn' not in ara_selinux_modules_loaded") or (ara_selinux_module_file['changed'])
 
     - name: Set up systemd unit file for gunicorn to run the ARA API
       template:
