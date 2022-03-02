@@ -48,9 +48,10 @@
 
 - name: Install Nodesource yum repository (RedHat/CentOS)
   become: yes
-  package:
+  yum:
     name: "https://rpm.nodesource.com/pub_{{ ara_web_nodejs_version }}.x/el/{{ ansible_facts['distribution_major_version'] }}/{{ ansible_facts['architecture'] }}/nodesource-release-el{{ ansible_facts['distribution_major_version'] }}-1.noarch.rpm"
     state: present
+    disable_gpg_check: "{{ ara_web_nodejs_gpgcheck }}"
   when: ansible_facts['distribution'] == "RedHat" or ansible_facts['distribution'] == "CentOS"
 
 - name: Install nodejs
