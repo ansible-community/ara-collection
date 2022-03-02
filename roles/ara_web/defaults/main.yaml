@@ -54,6 +54,9 @@ ara_web_dev_server_bind_port: 3000
 # Version of nodesource nodejs repositories to install
 ara_web_nodejs_version: 10
 
+# Disable gpgcheck for installation of nodesource repository
+ara_web_nodejs_gpgcheck: no
+
 # ara-server API endpoint to use
 ara_web_api_endpoint: "http://127.0.0.1:8000"
 
