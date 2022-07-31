@@ -44,8 +44,8 @@
     parent: ara-role-database-backends
     nodeset: ara-database-server-multinode
     description: |
-      Deploys the ARA API server on Ubuntu 18.04, Fedora 32 as well as CentOS 8
-      and tests it against a central PostgreSQL server installed on CentOS 8.
+      Deploys the ARA API server on Fedora 36 as well as CentOS Stream 8/9
+      and tests it against a central PostgreSQL server installed on CentOS Stream 9.
       The job exercises the ara_api Ansible role, the ARA Ansible plugins, the
       ARA API clients as well as the API itself.
     run: tests/with_postgresql.yaml
@@ -56,8 +56,8 @@
     parent: ara-role-database-backends
     nodeset: ara-database-server-multinode
     description: |
-      Deploys the ARA API server on Ubuntu 18.04, Fedora 32 as well as CentOS 8
-      and tests it against a central MySQL server installed on CentOS 8.
+      Deploys the ARA API server on Fedora 36 as well as CentOS Stream 8/9
+      and tests it against a central MySQL server installed on CentOS Stream 9.
       The job exercises the ara_api Ansible role, the ARA Ansible plugins, the
       ARA API clients as well as the API itself.
     run: tests/with_mysql.yaml
@@ -68,7 +68,7 @@
     parent: ara-role-database-backends
     nodeset: ara-multinode
     description: |
-      Deploys the ARA API server on Ubuntu 18.04, Fedora 32 as well as CentOS 8
+      Deploys the ARA API server on Fedora 36 as well as CentOS Stream 8/9
       and tests it using the distributed sqlite database backend.
     run: tests/with_distributed_sqlite.yaml
 
@@ -77,7 +77,7 @@
     parent: ara-role-integration-base
     nodeset: ara-multinode
     description: |
-      Deploys the ARA API server on Ubuntu 18.04, Fedora 32 as well as CentOS 8
+      Deploys the ARA API server on Fedora 36 as well as CentOS Stream 8/9
       and tests it running gunicorn with nginx in front managing external
       authentication.
       The job exercises the ara_api and ara_frontend_nginx Ansible roles, the
@@ -90,8 +90,8 @@
 - job:
     name: ara-role-api-fedora-packages
     parent: ara-role-integration-base
-    nodeset: ara-fedora-32
+    nodeset: ara-fedora-36
     description: |
-      Deploys the ARA API server on Fedora 32 using distribution packages for
+      Deploys the ARA API server on Fedora 36 using distribution packages for
       ARA and Ansible.
     run: tests/with_fedora_packages.yaml

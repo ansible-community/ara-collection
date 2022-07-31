@@ -4,47 +4,55 @@
     name: ara-database-server-multinode
     nodes:
       - name: database-server
-        label: centos-8-1vcpu
-      - name: ubuntu-bionic
-        label: ubuntu-bionic-1vcpu
-      - name: fedora-32
-        label: fedora-32-1vcpu
-      - name: centos-8
-        label: centos-8-1vcpu
+        label: ansible-cloud-centos-9-stream-tiny
+      - name: fedora-36
+        label: ansible-cloud-fedora-36-tiny
+      - name: centos-stream-9
+        label: ansible-cloud-centos-9-stream-tiny
+      - name: centos-stream-8
+        label: ansible-cloud-centos-8-stream-tiny
+      # TODO: lacking ubuntu/debian testing coverage because there is no ubuntu image in CI
+      #- name: ubuntu-bionic
+      #  label: ubuntu-bionic-1vcpu
     groups:
       - name: ara-database-server
         nodes:
           - database-server
       - name: ara-api-server
         nodes:
-          - ubuntu-bionic
-          - fedora-32
-          - centos-8
+          - fedora-36
+          - centos-stream-9
+          - centos-stream-8
+          # - ubuntu-bionic
 
 # Nodeset used to test instances of ARA API deployed on different operating
 # systems simultaneously.
 - nodeset:
     name: ara-multinode
     nodes:
-      - name: ubuntu-bionic
-        label: ubuntu-bionic-1vcpu
-      - name: fedora-32
-        label: fedora-32-1vcpu
-      - name: centos-8
-        label: centos-8-1vcpu
+      - name: fedora-36
+        label: ansible-cloud-fedora-36-tiny
+      - name: centos-stream-9
+        label: ansible-cloud-centos-9-stream-tiny
+      - name: centos-stream-8
+        label: ansible-cloud-centos-8-stream-tiny
+      # TODO: lacking ubuntu/debian testing coverage because there is no ubuntu image in CI
+      #- name: ubuntu-bionic
+      #  label: ubuntu-bionic-1vcpu
     groups:
       - name: ara-api-server
         nodes:
-          - ubuntu-bionic
-          - fedora-32
-          - centos-8
+          - fedora-36
+          - centos-stream-9
+          - centos-stream-8
+          # - ubuntu-bionic
 
 - nodeset:
-    name: ara-fedora-32
+    name: ara-fedora-36
     nodes:
-      - name: fedora-32
-        label: fedora-32-1vcpu
+      - name: fedora-36
+        label: ansible-cloud-fedora-36-tiny
     groups:
       - name: ara-api-server
         nodes:
-          - fedora-32
+          - fedora-36
