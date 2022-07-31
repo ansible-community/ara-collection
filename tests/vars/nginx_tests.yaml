@@ -19,8 +19,7 @@ ara_api_frontend_server: nginx
 ara_api_frontend_ssl: true
 ara_api_frontend_ssl_key: /etc/ssl/ara.example.org/privkey.pem
 ara_api_frontend_ssl_cert: /etc/ssl/ara.example.org/cert.pem
-# TODO: Make the callback trust the certificate
-ara_api_insecure: 'true'
+ara_api_ca: "{{ ara_api_frontend_ssl_cert }}"
 
 # Configuration to the callback plugin
 ara_api_client: http
