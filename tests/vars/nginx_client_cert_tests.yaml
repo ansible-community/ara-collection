@@ -1,0 +1,7 @@
+---
+ara_api_frontend_ca_cert: /etc/ssl/ara-ca/cert.pem
+ara_api_frontend_ca_key: /etc/ssl/ara-ca/privkey.pem
+
+ara_api_ca: "{{ ara_api_frontend_ca_cert }}"
+ara_api_cert: /etc/ssl/ara-client/cert.pem
+ara_api_key: /etc/ssl/ara-client/privkey.pem
