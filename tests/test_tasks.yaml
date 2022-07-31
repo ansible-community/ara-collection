@@ -94,6 +94,15 @@
       {% if ara_api_password is defined and ara_api_password %}
       api_password = {{ ara_api_password }}
       {% endif %}
+      {% if ara_api_cert is defined and ara_api_cert %}
+      api_cert = {{ ara_api_cert }}
+      {% endif %}
+      {% if ara_api_key is defined and ara_api_key %}
+      api_key = {{ ara_api_key }}
+      {% endif %}
+      {% if ara_api_ca is defined and ara_api_ca %}
+      api_ca = {{ ara_api_ca }}
+      {% endif %}
       callback_threads = {{ ara_callback_threads | default(1) }}
       {% if _default_labels is defined %}
       default_labels = {{ _default_labels | join(',') }}
