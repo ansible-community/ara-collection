@@ -85,6 +85,21 @@
         #     provider: selfsigned
 
   tasks:
+    # TODO: Troubleshoot permission denied issues when running with gunicorn
+    # https://github.com/ansible-community/ara-collection/issues/56
+    - when: ansible_os_family == "RedHat"
+      become: yes
+      block:
+        - name: Install python3-libselinux
+          package:
+            name: python3-libselinux
+            state: present
+
+        - name: Set selinux to permissive
+          selinux:
+            policy: targeted
+            state: permissive
+
     - name: Set up the API with the ara_api Ansible role
       include_role:
         name: ara_api
