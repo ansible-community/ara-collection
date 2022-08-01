@@ -170,10 +170,6 @@ ara_api_logging:
         - console
       level: "{{ ara_api_log_level }}"
       propagate: 0
-  root:
-    handlers:
-      - console
-    level: "{{ ara_api_log_level }}"
   version: 1
 
 # ARA_CORS_ORIGIN_ALLOW_ALL - django-cors-headers’s CORS_ORIGIN_WHITELIST_ALLOW_ALL setting
