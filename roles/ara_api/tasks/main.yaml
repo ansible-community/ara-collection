@@ -19,6 +19,7 @@
 - name: Include OS family/distribution specific variables
   include_vars: "{{ item }}"
   with_first_found:
+    - "{{ ansible_facts['distribution'] }}_{{ ansible_facts['distribution_major_version'] }}.yaml"
     - "{{ ansible_facts['distribution'] }}.yaml"
     - "{{ ansible_facts['os_family'] }}.yaml"
 
