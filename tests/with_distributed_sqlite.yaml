@@ -8,6 +8,21 @@
   vars_files:
     - vars/distributed_sqlite_tests.yaml
   tasks:
+    # TODO: Troubleshoot permission denied issues when running with gunicorn
+    # https://github.com/ansible-community/ara-collection/issues/56
+    - when: ansible_os_family == "RedHat"
+      become: yes
+      block:
+        - name: Install python3-libselinux
+          package:
+            name: python3-libselinux
+            state: present
+
+        - name: Set selinux to permissive
+          selinux:
+            policy: targeted
+            state: permissive
+
     # Generate ourselves a fresh database to run tests with
     - name: Set up the API with the default sqlite backend
       include_role:
