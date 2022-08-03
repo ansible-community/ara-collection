@@ -75,6 +75,7 @@
         - name: Generate client/server certificates
           block:
             - name: Set the CSR file
+              set_fact:
                 _csr_file: "{{ item.cert_file | regex_replace('.pem$', '.csr') }}"
 
             - name: Template the openssl configuration file
