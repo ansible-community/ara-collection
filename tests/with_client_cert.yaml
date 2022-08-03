@@ -72,11 +72,11 @@
             -days 3650
             -nodes
 
-        - name: Generate client/server certificates
+        - name: Generate server certificate
           block:
-            - name: Set the CSR file
+            - name: Set vars for server certificate
               set_fact:
-                _csr_file: "{{ item.cert_file | regex_replace('.pem$', '.csr') }}"
+                _csr_file: "{{ ara_api_frontend_ssl_cert | regex_replace('.pem$', '.csr') }}"
 
             - name: Template the openssl configuration file
               copy:
@@ -84,7 +84,7 @@
                 content: |
                   [ req ]
                   default_bits       = 2048
-                  default_keyfile    = {{ item.key_file }}
+                  default_keyfile    = {{ ara_api_frontend_ssl_key }}
                   default_md         = sha256
                   prompt             = no
                   distinguished_name = distinguished_name
@@ -92,12 +92,12 @@
 
                   [ v3_ca ]
                   basicConstraints       = critical,CA:FALSE
-                  extendedKeyUsage       = critical,{{ item.eku }}
+                  extendedKeyUsage       = critical,serverAuth
                   subjectKeyIdentifier   = hash
                   authorityKeyIdentifier = keyid:always,issuer:always
 
                   [ distinguished_name ]
-                  commonName             = {{ item.common_name }}
+                  commonName             = {{ ara_api_fqdn }}
                   countryName            = CA
                   stateOrProvinceName    = QC
                   localityName           = Montreal
@@ -118,7 +118,67 @@
               copy:
                 dest: "{{ _selfsigned_ext_conf }}"
                 content: |
-                  subjectAltName=DNS:{{ item.common_name }}
+                  subjectAltName=DNS:{{ ara_api_fqdn }}
+
+            - name: Sign the CSR with our CA
+              command: >-
+                openssl x509
+                -req
+                -in {{ _csr_file | quote }}
+                -CA {{ ara_api_frontend_ssl_ca_cert | quote }}
+                -CAkey {{ ara_api_frontend_ssl_ca_key }}
+                -CAcreateserial
+                -out {{ {{ ara_api_frontend_ssl_cert }} | quote }}
+                -extfile {{ _selfsigned_ext_conf | quote }}
+
+        - name: Generate client certificate
+          block:
+            - name: Set vars for client certificate
+              set_fact:
+                _csr_file: "{{ ara_api_frontend_ssl_cert | regex_replace('.pem$', '.csr') }}"
+                _common_name: ARA API Client Cert
+
+            - name: Template the openssl configuration file
+              copy:
+                dest: "{{ _selfsigned_conf }}"
+                content: |
+                  [ req ]
+                  default_bits       = 2048
+                  default_keyfile    = {{ ara_api_frontend_ssl_key }}
+                  default_md         = sha256
+                  prompt             = no
+                  distinguished_name = distinguished_name
+                  x509_extensions    = v3_ca
+
+                  [ v3_ca ]
+                  basicConstraints       = critical,CA:FALSE
+                  extendedKeyUsage       = critical,clientAuth
+                  subjectKeyIdentifier   = hash
+                  authorityKeyIdentifier = keyid:always,issuer:always
+
+                  [ distinguished_name ]
+                  commonName             = {{ _common_name }}
+                  countryName            = CA
+                  stateOrProvinceName    = QC
+                  localityName           = Montreal
+                  organizationName       = ara
+                  organizationalUnitName = integration-tests
+
+            - name: Generate a CSR
+              command: >-
+                openssl req
+                -config {{ _selfsigned_conf | quote }}
+                -newkey rsa:2048
+                -keyform PEM
+                -out {{ _csr_file | quote }}
+                -outform PEM
+                -nodes
+
+            - name: Template ext file
+              copy:
+                dest: "{{ _selfsigned_ext_conf }}"
+                content: |
+                  subjectAltName=DNS:{{ _common_name }}
 
             - name: Sign the CSR with our CA
               command: >-
@@ -130,15 +190,7 @@
                 -CAcreateserial
                 -out {{ item.cert_file | quote }}
                 -extfile {{ _selfsigned_ext_conf | quote }}
-          with_items:
-            - common_name: "{{ ara_api_fqdn }}"
-              cert_file: "{{ ara_api_frontend_ssl_cert }}"
-              key_file: "{{ ara_api_frontend_ssl_key }}"
-              eku: serverAuth
-            - common_name: ARA API Client Cert
-              cert_file: "{{ ara_api_client_ssl_cert }}"
-              key_file: "{{ ara_api_client_ssl_key }}"
-              eku: clientAuth
+
   tasks:
     # TODO: Troubleshoot permission denied issues when running with gunicorn
     # https://github.com/ansible-community/ara-collection/issues/56
