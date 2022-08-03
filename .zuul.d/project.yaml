@@ -6,6 +6,7 @@
         - ara-role-api-mysql
         - ara-role-api-postgresql
         - ara-role-api-gunicorn-nginx
+        - ara-role-api-gunicorn-nginx-client-cert
         - ara-role-api-fedora-packages:
             voting: false
     gate:
@@ -14,3 +15,4 @@
         - ara-role-api-mysql
         - ara-role-api-postgresql
         - ara-role-api-gunicorn-nginx
+        - ara-role-api-gunicorn-nginx-client-cert

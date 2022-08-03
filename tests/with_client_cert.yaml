@@ -6,7 +6,6 @@
   hosts: ara-api-server
   gather_facts: yes
   vars_files:
-    - vars/nginx_tests.yaml
     - vars/nginx_client_cert_tests.yaml
   pre_tasks:
     - become: true
@@ -24,10 +23,10 @@
           loop:
             - "{{ ara_api_frontend_ssl_key }}"
             - "{{ ara_api_frontend_ssl_cert }}"
-            - "{{ ara_api_frontend_ca_key }}"
-            - "{{ ara_api_frontend_ca_certe }}"
-            - "{{ ara_api_client_key }}"
-            - "{{ ara_api_client_cert }}"
+            - "{{ ara_api_frontend_ssl_ca_key }}"
+            - "{{ ara_api_frontend_ssl_ca_cert }}"
+            - "{{ ara_api_client_ssl_key }}"
+            - "{{ ara_api_client_ssl_cert }}"
 
         - name: Set path to openssl configuration files
           set_fact:
@@ -42,7 +41,7 @@
             content: |
               [ req ]
               default_bits       = 2048
-              default_keyfile    = {{ ara_api_frontend_ca_key }}
+              default_keyfile    = {{ ara_api_frontend_ssl_ca_key }}
               default_md         = sha256
               prompt             = no
               distinguished_name = distinguished_name
@@ -68,7 +67,7 @@
             -config {{ _selfsigned_conf }}
             -newkey rsa:2048
             -keyform PEM
-            -out {{ ara_api_frontend_ca_cert }}
+            -out {{ ara_api_frontend_ssl_ca_cert }}
             -outform PEM
             -days 3650
             -nodes
@@ -125,8 +124,8 @@
                 openssl x509
                 -req
                 -in {{ _csr_file | quote }}
-                -CA {{ ara_api_frontend_ca_cert | quote }}
-                -CAkey {{ ara_api_frontend_ca_key }}
+                -CA {{ ara_api_frontend_ssl_ca_cert | quote }}
+                -CAkey {{ ara_api_frontend_ssl_ca_key }}
                 -CAcreateserial
                 -out {{ item.cert_file | quote }}
                 -extfile {{ _selfsigned_ext_conf | quote }}
@@ -136,10 +135,25 @@
               key_file: "{{ ara_api_frontend_ssl_key }}"
               eku: serverAuth
             - common_name: ARA API Client Cert
-              cert_file: "{{ ara_api_cert }}"
-              key_file: "{{ ara_api_key }}"
+              cert_file: "{{ ara_api_client_ssl_cert }}"
+              key_file: "{{ ara_api_client_ssl_key }}"
               eku: clientAuth
   tasks:
+    # TODO: Troubleshoot permission denied issues when running with gunicorn
+    # https://github.com/ansible-community/ara-collection/issues/56
+    - when: ansible_os_family == "RedHat"
+      become: yes
+      block:
+        - name: Install python3-libselinux
+          package:
+            name: python3-libselinux
+            state: present
+
+        - name: Set selinux to permissive
+          selinux:
+            policy: targeted
+            state: permissive
+
     - name: Set up the API with the ara_api Ansible role
       include_role:
         name: ara_api
