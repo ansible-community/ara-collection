@@ -41,20 +41,28 @@
         src: ara-gunicorn.te
         dest: "{{ ara_api_root_dir }}/ara-gunicorn.te"
         mode: 0444
+      register: ara_selinux_module_file
 
-    # TODO: Only compile a new module and policy package when necessary
     - name: Compile ara-gunicorn selinux module
       command: "checkmodule -M -m -o {{ ara_api_root_dir }}/ara-gunicorn.mod {{ ara_api_root_dir }}/ara-gunicorn.te"
+      when: ara_selinux_module_file['changed']
 
     - name: Compile ara-gunicorn selinux policy package
       command: "semodule_package -o {{ ara_api_root_dir }}/ara-gunicorn.pp -m {{ ara_api_root_dir }}/ara-gunicorn.mod"
+      when: ara_selinux_module_file['changed']
 
 - become: true
   block:
-    # TODO: Only install the selinux module if it has changed
+    - name: Gather loaded SELinux modules
+      command: semodule -l
+      register: ara_selinux_modules_loaded
+      when: ansible_facts['os_family'] == "RedHat"
+
     - name: Install selinux policy package
       command: "semodule -i {{ ara_api_root_dir }}/ara-gunicorn.pp"
-      when: ansible_facts['os_family'] == "RedHat"
+      when:
+        - ansible_facts['os_family'] == "RedHat"
+        - ("'ara-gunicorn' not in ara_selinux_modules_loaded") or (ara_selinux_module_file['changed'])
 
     - name: Set up systemd unit file for gunicorn to run the ARA API
       template:
