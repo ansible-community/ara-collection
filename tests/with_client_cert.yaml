@@ -128,7 +128,7 @@
                 -CA {{ ara_api_frontend_ssl_ca_cert | quote }}
                 -CAkey {{ ara_api_frontend_ssl_ca_key }}
                 -CAcreateserial
-                -out {{ {{ ara_api_frontend_ssl_cert }} | quote }}
+                -out {{ ara_api_frontend_ssl_cert | quote }}
                 -extfile {{ _selfsigned_ext_conf | quote }}
 
         - name: Generate client certificate
