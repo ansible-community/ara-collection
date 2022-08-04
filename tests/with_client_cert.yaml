@@ -135,7 +135,7 @@
             - name: Grant read permissions to the private key
               file:
                 path: "{{ ara_api_frontend_ssl_key }}"
-                mode: 0755
+                mode: 0744
 
         - name: Generate client certificate
           block:
@@ -188,6 +188,12 @@
                 -CAkey {{ ara_api_frontend_ssl_ca_key }}
                 -CAcreateserial
                 -out {{ ara_api_cert | quote }}
+
+            # The private key is 0700 by default, do it for the purpose of testing from an unprivileged user
+            - name: Grant read permissions to the private key
+              file:
+                path: "{{ ara_api_key }}"
+                mode: 0744
 
   tasks:
     # TODO: Troubleshoot permission denied issues when running with gunicorn
