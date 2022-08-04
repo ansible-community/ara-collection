@@ -149,7 +149,7 @@
                 content: |
                   [ req ]
                   default_bits       = 2048
-                  default_keyfile    = {{ ara_api_frontend_ssl_key }}
+                  default_keyfile    = {{ ara_api_key }}
                   default_md         = sha256
                   prompt             = no
                   distinguished_name = distinguished_name
