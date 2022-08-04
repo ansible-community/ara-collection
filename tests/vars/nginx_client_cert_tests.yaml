@@ -1,0 +1,37 @@
+---
+ara_tests_cleanup: true
+ara_api_root_dir: "{{ ansible_user_dir }}/.ara-tests"
+ara_api_secret_key: testing
+ara_api_debug: true
+ara_api_log_level: DEBUG
+# disable no_log for potentially sensitive tasks in order to troubleshoot them in integration tests
+ara_api_secure_logging: false
+
+# Set up gunicorn with nginx in front for external authentication
+ara_api_fqdn: ara.example.org
+ara_api_allowed_hosts:
+  - "{{ ara_api_fqdn }}"
+
+ara_api_wsgi_server: gunicorn
+ara_api_frontend_server: nginx
+ara_api_frontend_ssl: true
+ara_api_frontend_ssl_key: /etc/ssl/ara.example.org/privkey.pem
+ara_api_frontend_ssl_cert: /etc/ssl/ara.example.org/cert.pem
+ara_api_frontend_ssl_ca_cert: /etc/ssl/ara-ca/cert.pem
+ara_api_frontend_ssl_ca_key: /etc/ssl/ara-ca/privkey.pem
+
+# Client-side configuration for the callback plugin
+ara_api_client: http
+ara_api_server: https://ara.example.org
+ara_api_username: ara
+ara_api_password: hunter2
+ara_api_ca: "{{ ara_api_frontend_ssl_ca_cert }}"
+ara_api_cert: /etc/ssl/ara-client/cert.pem
+ara_api_key: /etc/ssl/ara-client/privkey.pem
+
+# Enable external authentication and set up /etc/nginx/.htpasswd
+ara_api_external_auth: true
+ara_api_external_auth_file: /etc/nginx/.htpasswd
+ara_api_external_auth_users:
+  - username: "{{ ara_api_username }}"
+    password: "{{ ara_api_password }}"

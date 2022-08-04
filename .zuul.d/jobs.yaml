@@ -85,6 +85,19 @@
       authentication enabled.
     run: tests/with_nginx.yaml
 
+- job:
+    name: ara-role-api-gunicorn-nginx-client-cert
+    parent: ara-role-integration-base
+    nodeset: ara-multinode
+    description: |
+      Deploys the ARA API server on Fedora 36 as well as CentOS Stream 8/9
+      and tests it running gunicorn with nginx in front managing external
+      authentication with client certificates.
+      The job exercises the ara_api and ara_frontend_nginx Ansible roles, the
+      ARA Ansible plugins, the ARA API clients as well as the API itself with
+      authentication enabled.
+    run: tests/with_client_cert.yaml
+
 # TODO: The job should build a package from current source and test that package
 # instead of the package in the stable distribution.
 - job:

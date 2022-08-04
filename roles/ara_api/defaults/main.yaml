@@ -85,6 +85,10 @@ ara_api_frontend_ssl_key: null
 # ex: /etc/letsencrypt/live/ara.example.org/fullchain.pem
 ara_api_frontend_ssl_cert: null
 
+# Path to an existing SSL CA certificate provisioned outside of this role
+# used for client-side verification (i.e, ssl_verify_client in nginx)
+ara_api_frontend_ssl_ca_cert: null
+
 # The WSGI server for running ARA's API server
 # - null [default]: No persistent WSGI application server will be set up. Only the offline API client will work.
 # - gunicorn: gunicorn will be installed and set up to run the API as a systemd service.
