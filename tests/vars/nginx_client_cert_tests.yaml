@@ -20,7 +20,7 @@ ara_api_frontend_ssl_cert: /etc/ssl/ara.example.org/cert.pem
 ara_api_frontend_ssl_ca_cert: /etc/ssl/ara-ca/cert.pem
 ara_api_frontend_ssl_ca_key: /etc/ssl/ara-ca/privkey.pem
 
-# Configuration to the callback plugin
+# Client-side configuration for the callback plugin
 ara_api_client: http
 ara_api_server: https://ara.example.org
 ara_api_username: ara

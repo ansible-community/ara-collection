@@ -25,8 +25,8 @@
             - "{{ ara_api_frontend_ssl_cert }}"
             - "{{ ara_api_frontend_ssl_ca_key }}"
             - "{{ ara_api_frontend_ssl_ca_cert }}"
-            - "{{ ara_api_client_ssl_key }}"
-            - "{{ ara_api_client_ssl_cert }}"
+            - "{{ ara_api_key }}"
+            - "{{ ara_api_cert }}"
 
         - name: Set path to openssl configuration files
           set_fact:
@@ -136,7 +136,6 @@
             - name: Set vars for client certificate
               set_fact:
                 _csr_file: "{{ ara_api_frontend_ssl_cert | regex_replace('.pem$', '.csr') }}"
-                _common_name: ARA API Client Cert
 
             - name: Template the openssl configuration file
               copy:
@@ -157,7 +156,7 @@
                   authorityKeyIdentifier = keyid:always,issuer:always
 
                   [ distinguished_name ]
-                  commonName             = {{ _common_name }}
+                  commonName             = ARA API Client Cert
                   countryName            = CA
                   stateOrProvinceName    = QC
                   localityName           = Montreal
@@ -174,12 +173,6 @@
                 -outform PEM
                 -nodes
 
-            - name: Template ext file
-              copy:
-                dest: "{{ _selfsigned_ext_conf }}"
-                content: |
-                  subjectAltName=DNS:{{ _common_name }}
-
             - name: Sign the CSR with our CA
               command: >-
                 openssl x509
@@ -189,7 +182,6 @@
                 -CAkey {{ ara_api_frontend_ssl_ca_key }}
                 -CAcreateserial
                 -out {{ item.cert_file | quote }}
-                -extfile {{ _selfsigned_ext_conf | quote }}
 
   tasks:
     # TODO: Troubleshoot permission denied issues when running with gunicorn
