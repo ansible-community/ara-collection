@@ -20,3 +20,6 @@
 - name: Set WSGI application to distributed_sqlite
   set_fact:
     _ara_api_wsgi_application: "ara.server.wsgi:distributed_sqlite"
+
+- debug:
+    msg: Just testing
