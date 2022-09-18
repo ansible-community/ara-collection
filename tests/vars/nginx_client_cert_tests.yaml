@@ -35,3 +35,5 @@ ara_api_external_auth_file: /etc/nginx/.htpasswd
 ara_api_external_auth_users:
   - username: "{{ ara_api_username }}"
     password: "{{ ara_api_password }}"
+
+# Just testing
