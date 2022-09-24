@@ -36,7 +36,7 @@
       - github.com/ansible-community/ara
       - github.com/ansible-community/ara-collection
       - name: github.com/ansible/ansible
-        override-checkout: stable-2.9
+        override-checkout: stable-2.13
     pre-run: tests/zuul_pre_multinode_networking.yaml
 
 - job:
