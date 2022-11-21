@@ -25,15 +25,14 @@ ara_api_required_packages:
   - python3-setuptools
   - python-pkg-resources
   - python3-pkg-resources
+  - gcc
 
 ara_api_postgresql_packages:
   - postgresql
   - postgresql-server-dev-10
   - python3-dev
-  - gcc
 
 ara_api_mysql_packages:
   - mariadb-client
   - libmariadbclient-dev
   - python3-dev
-  - gcc

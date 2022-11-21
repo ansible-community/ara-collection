@@ -29,16 +29,15 @@ ara_api_required_packages:
   - policycoreutils-python-utils
   # cronie provides crontab
   - cronie
+  - gcc
 
 ara_api_postgresql_packages:
   - postgresql
   - postgresql-devel
   - python3-devel
-  - gcc
 
 ara_api_mysql_packages:
   - mariadb
   - mariadb-connector-c-devel
   - redhat-rpm-config
   - python3-devel
-  - gcc
