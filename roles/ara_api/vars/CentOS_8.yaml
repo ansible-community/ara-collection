@@ -25,6 +25,7 @@ ara_distribution_packages: []
 ara_api_required_packages:
   - git
   - python36
+  - python36-devel
   - policycoreutils-python-utils
   # cronie provides crontab
   - cronie
@@ -33,11 +34,8 @@ ara_api_required_packages:
 ara_api_postgresql_packages:
   - postgresql
   - postgresql-devel
-  - python36-devel
-  - gcc
 
 ara_api_mysql_packages:
   - mariadb
   - mariadb-connector-c-devel
   - redhat-rpm-config
-  - python36-devel

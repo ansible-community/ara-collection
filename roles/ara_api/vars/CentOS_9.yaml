@@ -26,6 +26,7 @@ ara_api_required_packages:
   - git
   # python3.9 on EL9
   - python3
+  - python3-devel
   - policycoreutils-python-utils
   # cronie provides crontab
   - cronie
@@ -34,10 +35,8 @@ ara_api_required_packages:
 ara_api_postgresql_packages:
   - postgresql
   - postgresql-devel
-  - python3-devel
 
 ara_api_mysql_packages:
   - mariadb
   - mariadb-connector-c-devel
   - redhat-rpm-config
-  - python3-devel
