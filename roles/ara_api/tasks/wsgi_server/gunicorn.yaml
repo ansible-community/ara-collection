@@ -57,6 +57,7 @@
       command: semodule -l
       register: ara_selinux_modules_loaded
       when: ansible_facts['os_family'] == "RedHat"
+      changed_when: false
 
     - name: Install selinux policy package
       command: "semodule -i {{ ara_api_root_dir }}/ara-gunicorn.pp"
