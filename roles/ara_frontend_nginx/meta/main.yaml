@@ -4,7 +4,7 @@
 
 galaxy_info:
   author: The ARA Records Ansible authors
-  description: Installs an nginx reverse proxy in front of ara-web or an ARA API server
+  description: Installs an nginx reverse proxy in front of an ARA API server
   license: GPLv3
   min_ansible_version: 2.7
   platforms:

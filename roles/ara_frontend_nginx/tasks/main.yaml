@@ -73,24 +73,6 @@
           notify:
             - restart nginx
 
-    - when: ara_web_fqdn is defined
-      block:
-        - name: Set up the ARA API nginx vhost
-          template:
-            src: "{{ ara_web_frontend_vhost | default('ara-web.conf.j2', True) }}"
-            dest: "{{ ara_nginx_config_path }}/ara-web.conf"
-          notify:
-            - restart nginx
-
-        - name: Enable the web nginx configuration on Debian-like systems
-          file:
-            src: "{{ ara_nginx_config_path }}/ara-web.conf"
-            dest: /etc/nginx/sites-enabled/ara-web.conf
-            state: link
-          when: ansible_facts['os_family'] == 'Debian'
-          notify:
-            - restart nginx
-
     - name: Ensure nginx is restarted if need be
       meta: flush_handlers
 
