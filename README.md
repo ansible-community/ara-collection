@@ -16,16 +16,9 @@ in various supported configurations.
 
 Documentation: [roles/ara_api/README.md](https://github.com/ansible-community/ara-collection/blob/master/roles/ara_api/README.md)
 
-## ara_web
-
-![ara_web](doc/source/_static/ansible-role-ara-web.png)
-
-Documentation: [roles/ara_web/README.md](https://github.com/ansible-community/ara-collection/blob/master/roles/ara_web/README.md)
-
 ## ara_frontend_nginx
 
-A role that sets up a basic nginx reverse proxy for serving the API server as
-well as ara-web.
+A role that sets up a basic nginx reverse proxy for serving the API server.
 
 Documentation: [roles/ara_frontend_nginx/README.md](https://github.com/ansible-community/ara-collection/blob/master/roles/ara_frontend_nginx/README.md)
 
