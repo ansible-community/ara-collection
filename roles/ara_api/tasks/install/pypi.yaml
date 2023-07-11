@@ -6,6 +6,7 @@
     version: "{{ (ara_api_version != 'latest') | ternary(ara_api_version, omit) }}"
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
+    virtualenv_site_packages: "{{ ara_api_venv_use_system_packages }}"
   notify: restart ara-api
 
 - name: Install python-passlib for managing authentication credentials

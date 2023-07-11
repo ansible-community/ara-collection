@@ -45,6 +45,9 @@ ara_api_venv_path: "{{ ara_api_root_dir }}/virtualenv"
 # - pypi : installs from pypi
 ara_api_install_method: source
 
+# If installing from pypi: include system packages in venv
+ara_api_venv_use_system_packages: false
+
 # When installing from source, the URL or filesystem path where the git source
 # repository can be cloned from.
 ara_api_source: "https://github.com/ansible-community/ara"
