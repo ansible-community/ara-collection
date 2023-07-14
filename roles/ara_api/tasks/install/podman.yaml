@@ -1,0 +1,36 @@
+---
+- name: Detecting existing PyPI installation
+  ansible.builtin.stat:
+    path: "{{ ara_api_venv_path }}"
+  register: existing_pypi_install
+
+- name: Remove PyPI virtualenv
+  ansible.builtin.file:
+    path: "{{ ara_api_venv_path }}"
+    state: absent
+  when: existing_pypi_install['stat']['exists']
+
+- name: Detecting existing sqlite database
+  ansible.builtin.stat:
+    path: "{{ ara_api_database_name }}"
+  register: existing_sqlite_database
+
+- name: Move sqlite database to new location
+  ansible.builtin.command: mv {{ ara_api_database_name }} {{ ara_api_root_dir }}/ansible.sqlite
+  when: existing_sqlite_database['stat']['exists']
+
+- name: Override file locations with path in container
+  ansible.builtin.set_fact:
+    ara_api_database_name: "/opt/ara/ansible.sqlite"
+    ara_api_log_dir: "/opt/ara/logs"
+    ara_api_settings: "{{ ara_api_root_dir }}/settings.yaml"
+
+- name: Ensure ARA API container
+  containers.podman.podman_container:
+    name: ara-api
+    image: recordsansible/ara-api:{{ ara_api_version }}
+    state: started
+    ports:
+      - 127.0.0.1:8000:8000
+    volume:
+      - "{{ ara_api_root_dir }}:/opt/ara"
