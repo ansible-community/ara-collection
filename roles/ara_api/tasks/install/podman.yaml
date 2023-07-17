@@ -31,7 +31,7 @@
   containers.podman.podman_container:
     name: ara-api
     image: recordsansible/ara-api:{{ ara_api_version }}
-    state: started
+    state: present
     ports:
       - 127.0.0.1:8000:8000
     volume:
