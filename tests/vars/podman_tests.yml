@@ -1,0 +1,9 @@
+ara_tests_cleanup: true
+ara_api_root_dir: "{{ ansible_user_dir }}/.ara-tests"
+ara_api_secret_key: testing
+ara_api_install_method: 'podman'
+ara_api_version: 'latest'
+ara_api_debug: true
+ara_api_log_level: DEBUG
+# Configure cleanup crons to exercise the code path during tests
+ara_api_configure_cron: true
