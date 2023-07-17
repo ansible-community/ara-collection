@@ -28,8 +28,15 @@
 
 - name: restart ara-api
   become: true
-  listen: restart ara-api
-  containers.podman.podman_container:
-    name: ara-api
-    state: restarted
+  block:
+    - name: stop container
+      containers.podman.podman_container:
+        name: ara-api
+        state: stopped
+      listen: restart ara-api
+    - name: start container
+      containers.podman.podman_container:
+        name: ara-api
+        state: started
+      listen: restart ara-api
   when: ara_api_install_method == 'podman'
