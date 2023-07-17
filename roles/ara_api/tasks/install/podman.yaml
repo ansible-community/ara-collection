@@ -32,7 +32,28 @@
     name: ara-api
     image: recordsansible/ara-api:{{ ara_api_version }}
     state: present
+    auto_remove: true
     ports:
       - 127.0.0.1:8000:8000
     volume:
       - "{{ ara_api_root_dir }}:/opt/ara"
+
+- name: Generate systemd service
+  ansible.builtin.command: podman generate systemd --no-header --new -n ara-api
+  register: ara_api_podman_service
+  changed_when: false  # This task only generates input for the task below
+
+- name: Copy service file into place
+  ansible.builtin.copy:
+    content: "{{ ara_api_podman_service['stdout'] }}"
+    dest: /etc/systemd/system/ara-api.service
+    remote_src: true
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Ensure service
+  ansible.builtin.systemd:
+    name: ara-api.service
+    state: started
+    daemon_reload: true
