@@ -17,7 +17,9 @@
 
 - name: Move sqlite database to new location
   ansible.builtin.command: mv {{ ara_api_database_name }} {{ ara_api_root_dir }}/ansible.sqlite
-  when: existing_sqlite_database['stat']['exists']
+  when:
+    - existing_sqlite_database['stat']['exists']
+    - ara_api_database_engine == 'django.db.backends.sqlite3'
 
 - name: Override file locations with path in container
   ansible.builtin.set_fact:
