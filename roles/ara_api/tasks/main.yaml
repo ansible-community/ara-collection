@@ -45,6 +45,4 @@
 - name: Include installation of the frontend server
   include_role:
     name: "ara_frontend_{{ ara_api_frontend_server }}"
-  when:
-    - ara_api_frontend_server is not none
-    - ara_api_install_method != 'podman'
+  when: ara_api_frontend_server is not none
