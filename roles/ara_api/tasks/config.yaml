@@ -48,9 +48,7 @@
     - not settings_stat.stat.exists
   block:
     - name: Generate a random secret key
-      environment:
-        PATH: "{{ path_with_virtualenv }}"
-      command: "{{ ara_api_python_command }} -c 'from django.utils.crypto import get_random_string; print(get_random_string(length=50))'"
+      command: tr -dc A-Za-z0-9 </dev/urandom | head -c 50 ; echo ''
       no_log: "{{ ara_api_secure_logging }}"
       register: generated_key
 
