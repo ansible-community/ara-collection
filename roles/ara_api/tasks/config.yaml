@@ -40,15 +40,16 @@
         ara_api_secret_key: "{{ config[ara_api_env]['SECRET_KEY'] }}"
       no_log: "{{ ara_api_secure_logging }}"
 
-# If no secret key has been provided and this is the first time we are
-# running, generate a new random secret key that will be persisted in the
+# If no secret key has been provided or it is not present in the current
+# configuration, generate a new random secret key that will be persisted in the
 # configuration file.
 - when:
-    - ara_api_secret_key is none
-    - not settings_stat.stat.exists
+    - ara_api_secret_key is none or ara_api_secret_key == ''
   block:
     - name: Generate a random secret key
-      command: tr -dc A-Za-z0-9 </dev/urandom | head -c 50 ; echo ''
+      shell: |
+        set -o pipefail
+        tr -dc A-Za-z0-9 </dev/urandom | head -c 50 ; echo ''
       no_log: "{{ ara_api_secure_logging }}"
       register: generated_key
 

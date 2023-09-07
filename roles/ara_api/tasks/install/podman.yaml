@@ -10,6 +10,7 @@
       You seem to have ARA-API installed via PyPI in the past, if you like
       this role can clean up that installation and migrate your data to the Podman
       installation, by setting ara_api_migrate_to_podman to true
+  when: existing_pypi_install['stat']['exists']
 
 - name: 'Remove PyPI installation and migrate data'
   when: ara_api_migrate_to_podman
