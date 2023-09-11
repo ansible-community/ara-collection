@@ -67,4 +67,5 @@
   ansible.builtin.systemd:
     name: ara-api.service
     state: started
+    enabled: true
     daemon_reload: true
