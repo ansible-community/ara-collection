@@ -98,6 +98,15 @@
       authentication enabled.
     run: tests/with_client_cert.yaml
 
+- job:
+    name: ara-role-api-podman
+    parent: ara-role-integration-base
+    nodeset: ara-multinode
+    description: |
+      Desploys the ARA API server on Fedora 36 as well as CentOS Stream 8/9
+      in a Podman container and tests it using the default sqlite database backend.
+    run: tests/with_podman.yaml
+
 # TODO: The job should build a package from current source and test that package
 # instead of the package in the stable distribution.
 - job:
