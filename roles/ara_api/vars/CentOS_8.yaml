@@ -24,7 +24,7 @@ ara_distribution_packages: []
 # but we want to use the non-system one. Install it if it's missing.
 ara_api_required_packages:
   - git
-  - python36
+  - python39
   - policycoreutils-python-utils
   # cronie provides crontab
   - cronie
@@ -41,3 +41,5 @@ ara_api_mysql_packages:
   - redhat-rpm-config
   - python36-devel
   - gcc
+
+ara_api_python_command: /usr/bin/python3.9

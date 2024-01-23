@@ -37,3 +37,5 @@ ara_api_mysql_packages:
   - libmariadbclient-dev
   - python3-dev
   - gcc
+
+ara_api_python_command: /usr/bin/python3
