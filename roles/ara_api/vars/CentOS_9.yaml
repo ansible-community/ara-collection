@@ -42,3 +42,5 @@ ara_api_mysql_packages:
   - redhat-rpm-config
   - python3-devel
   - gcc
+
+ara_api_python_command: /usr/bin/python3
