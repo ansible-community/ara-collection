@@ -42,4 +42,4 @@ ara_api_mysql_packages:
   - python36-devel
   - gcc
 
-ara_api_python_command: /usr/bin/python39
+ara_api_python_command: /usr/bin/python3.9
