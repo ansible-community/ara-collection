@@ -60,7 +60,7 @@
 # The ansible_python_version fact might end up retrieving the version of
 # python2 so we need to explicitely get the version of python 3 available.
 - name: Validate availability of Python 3.5
-  command: "{{ ara_api_python_command }} -c 'import sys; print(".".join(map(str, sys.version_info[:2])))'"
+  command: "{{ ara_api_python_command }} -c 'import sys; print(\".\".join(map(str, sys.version_info[:2])))'"
   changed_when: false
   failed_when: false
   register: python_version
