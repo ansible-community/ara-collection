@@ -27,14 +27,14 @@
     name: "{{ ara_api_source_checkout }}[server]"
     state: present
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
-    virtualenv_command: /usr/bin/python3 -m venv
+    virtualenv_command: "{{ ara_api_python_command }} -m venv"
 
 - name: Install python-passlib for managing authentication credentials
   pip:
     name: passlib
     state: present
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
-    virtualenv_command: /usr/bin/python3 -m venv
+    virtualenv_command: "{{ ara_api_python_command }} -m venv"
   when: ara_api_external_auth
 
 - name: Prefix the virtualenv bin directory to PATH

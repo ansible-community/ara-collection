@@ -5,7 +5,7 @@
     state: "{{ (ara_api_version == 'latest') | ternary('latest', 'present') }}"
     version: "{{ (ara_api_version != 'latest') | ternary(ara_api_version, omit) }}"
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
-    virtualenv_command: /usr/bin/python3 -m venv
+    virtualenv_command: "{{ ara_api_python_command }} -m venv"
   notify: restart ara-api
 
 - name: Install python-passlib for managing authentication credentials
@@ -13,7 +13,7 @@
     name: passlib
     state: present
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
-    virtualenv_command: /usr/bin/python3 -m venv
+    virtualenv_command: "{{ ara_api_python_command }} -m venv"
   when: ara_api_external_auth
 
 - name: Prefix the virtualenv bin directory to PATH
