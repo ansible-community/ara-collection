@@ -4,13 +4,13 @@
     name: ara-database-server-multinode
     nodes:
       - name: database-server
-        label: ansible-cloud-centos-9-stream-tiny
-      - name: fedora-36
-        label: ansible-cloud-fedora-36-tiny
+        label: cloud-centos-9-stream
+      - name: fedora-39
+        label: cloud-fedora-39
       - name: centos-stream-9
-        label: ansible-cloud-centos-9-stream-tiny
+        label: cloud-centos-9-stream
       - name: centos-stream-8
-        label: ansible-cloud-centos-8-stream-tiny
+        label: cloud-centos-8-stream
       # TODO: lacking ubuntu/debian testing coverage because there is no ubuntu image in CI
       #- name: ubuntu-bionic
       #  label: ubuntu-bionic-1vcpu
@@ -20,7 +20,7 @@
           - database-server
       - name: ara-api-server
         nodes:
-          - fedora-36
+          - fedora-39
           - centos-stream-9
           - centos-stream-8
           # - ubuntu-bionic
@@ -30,29 +30,29 @@
 - nodeset:
     name: ara-multinode
     nodes:
-      - name: fedora-36
-        label: ansible-cloud-fedora-36-tiny
+      - name: fedora-39
+        label: cloud-fedora-39
       - name: centos-stream-9
-        label: ansible-cloud-centos-9-stream-tiny
+        label: cloud-centos-9-stream
       - name: centos-stream-8
-        label: ansible-cloud-centos-8-stream-tiny
+        label: cloud-centos-8-stream
       # TODO: lacking ubuntu/debian testing coverage because there is no ubuntu image in CI
       #- name: ubuntu-bionic
       #  label: ubuntu-bionic-1vcpu
     groups:
       - name: ara-api-server
         nodes:
-          - fedora-36
+          - fedora-39
           - centos-stream-9
           - centos-stream-8
           # - ubuntu-bionic
 
 - nodeset:
-    name: ara-fedora-36
+    name: ara-fedora-39
     nodes:
-      - name: fedora-36
-        label: ansible-cloud-fedora-36-tiny
+      - name: fedora-39
+        label: cloud-fedora-39
     groups:
       - name: ara-api-server
         nodes:
-          - fedora-36
+          - fedora-39
