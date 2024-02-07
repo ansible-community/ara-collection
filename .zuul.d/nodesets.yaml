@@ -47,12 +47,3 @@
           - centos-stream-8
           # - ubuntu-bionic
 
-- nodeset:
-    name: ara-fedora-39
-    nodes:
-      - name: fedora-39
-        label: cloud-fedora-39
-    groups:
-      - name: ara-api-server
-        nodes:
-          - fedora-39
