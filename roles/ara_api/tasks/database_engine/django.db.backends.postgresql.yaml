@@ -36,13 +36,12 @@
           Install the following packages before running this role again
           {{ _postgresql_missing_packages | join(' ') }}
 
-# Django requires psycopg2 when using postgresql
-# https://docs.djangoproject.com/en/2.2/ref/databases/#postgresql-notes
+# Django requires psycopg2 (or psycopg3) when using postgresql
+# https://docs.djangoproject.com/en/5.0/releases/4.2/#psycopg-3-support
+# TODO: Consider psycopg3: https://github.com/ansible-community/ara-collection/issues/73
 - name: Ensure psycopg2 is installed
   pip:
-    # Pin psycopg2 until we upgrade to django 3.2 LTS
-    # https://github.com/ansible-community/ara/issues/320
-    name: psycopg2<2.9
+    name: psycopg2
     state: present
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: "{{ ara_api_python_command }} -m venv"
