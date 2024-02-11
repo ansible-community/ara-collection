@@ -32,14 +32,14 @@ ara_api_required_packages:
 ara_api_postgresql_packages:
   - postgresql
   - postgresql-devel
-  - python36-devel
+  - python39-devel
   - gcc
 
 ara_api_mysql_packages:
   - mariadb
   - mariadb-connector-c-devel
   - redhat-rpm-config
-  - python36-devel
+  - python39-devel
   - gcc
 
 ara_api_python_command: /usr/bin/python3.9
