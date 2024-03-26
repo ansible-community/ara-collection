@@ -14,4 +14,4 @@ ara_api_configure_cron: true
 # The host is defined dynamically based on the address of the database server
 # ara_api_database_host: 127.0.0.1
 _postgresql_container_name: ara-postgresql-tests
-_postgresql_image_name: docker.io/postgres:10
+_postgresql_image_name: docker.io/postgres:12
