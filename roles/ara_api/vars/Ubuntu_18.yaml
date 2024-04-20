@@ -34,8 +34,6 @@ ara_api_postgresql_packages:
 
 ara_api_mysql_packages:
   - mariadb-client
-  - libmariadb-dev
+  - libmariadbclient-dev
   - python3-dev
   - gcc
-
-ara_api_python_command: /usr/bin/python3
