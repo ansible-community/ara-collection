@@ -4,33 +4,12 @@
     path: "{{ ara_api_venv_path }}"
   register: existing_pypi_install
 
-- name: 'Notify about existing PyPI installation'
+- name: Notify about existing PyPI installation
   ansible.builtin.debug:
     msg: |
-      You seem to have ARA-API installed via PyPI in the past, if you like
-      this role can clean up that installation and migrate your data to the Podman
-      installation, by setting ara_api_migrate_to_podman to true
+      You seem to have ARA-API installed via PyPI in the past, you might
+      want to clean up that installation and migrate your data
   when: existing_pypi_install['stat']['exists']
-
-- name: 'Remove PyPI installation and migrate data'
-  when: ara_api_migrate_to_podman
-  block:
-    - name: Remove PyPI virtualenv
-      ansible.builtin.file:
-        path: "{{ ara_api_venv_path }}"
-        state: absent
-      when: existing_pypi_install['stat']['exists']
-
-    - name: Detecting existing sqlite database
-      ansible.builtin.stat:
-        path: "{{ ara_api_database_name }}"
-      register: existing_sqlite_database
-
-    - name: Move sqlite database to new location
-      ansible.builtin.command: mv {{ ara_api_database_name }} {{ ara_api_root_dir }}/ansible.sqlite
-      when:
-        - existing_sqlite_database['stat']['exists']
-        - ara_api_database_engine == 'django.db.backends.sqlite3'
 
 - name: Override file locations with path in container
   ansible.builtin.set_fact:
