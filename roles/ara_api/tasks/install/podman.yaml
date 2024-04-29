@@ -1,0 +1,50 @@
+---
+- name: Detecting existing PyPI installation
+  ansible.builtin.stat:
+    path: "{{ ara_api_venv_path }}"
+  register: existing_pypi_install
+
+- name: Notify about existing PyPI installation
+  ansible.builtin.debug:
+    msg: |
+      You seem to have ARA-API installed via PyPI in the past, you might
+      want to clean up that installation and migrate your data
+  when: existing_pypi_install['stat']['exists']
+
+- name: Override file locations with path in container
+  ansible.builtin.set_fact:
+    ara_api_database_name: "/opt/ara/ansible.sqlite"
+    ara_api_log_dir: "/opt/ara/logs"
+    ara_api_settings: "{{ ara_api_root_dir }}/settings.yaml"
+
+- name: Ensure ARA API container
+  containers.podman.podman_container:
+    name: ara-api
+    image: recordsansible/ara-api:{{ ara_api_version }}
+    state: present
+    auto_remove: true
+    ports:
+      - 127.0.0.1:8000:8000
+    volume:
+      - "{{ ara_api_root_dir }}:/opt/ara:z"
+
+- name: Generate systemd service
+  ansible.builtin.command: podman generate systemd --no-header --new -n ara-api
+  register: ara_api_podman_service
+  changed_when: false  # This task only generates input for the task below
+
+- name: Copy service file into place
+  ansible.builtin.copy:
+    content: "{{ ara_api_podman_service['stdout'] }}"
+    dest: /etc/systemd/system/ara-api.service
+    remote_src: true
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Ensure service
+  ansible.builtin.systemd:
+    name: ara-api.service
+    state: started
+    enabled: true
+    daemon_reload: true
