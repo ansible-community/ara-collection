@@ -1,0 +1,9 @@
+---
+ara_api_systemd_config:
+  path: '/etc/systemd/system'
+  restart_policy: 'always'
+  time: 120
+  names: true
+  new: true
+  container_prefix: ''
+  separator: ''
