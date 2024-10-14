@@ -20,7 +20,7 @@
 - name: Ensure ARA API container
   containers.podman.podman_container:
     name: ara-api
-    image: {{ ara_api_image }}:{{ ara_api_version }}
+    image: "{{ ara_api_image }}:{{ ara_api_version }}"
     pull: newer
     state: present
     auto_remove: true
