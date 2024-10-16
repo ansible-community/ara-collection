@@ -5,12 +5,10 @@
     nodes:
       - name: database-server
         label: cloud-centos-9-stream
-      - name: fedora-39
-        label: cloud-fedora-39
+      - name: fedora-40
+        label: cloud-fedora-40
       - name: centos-stream-9
         label: cloud-centos-9-stream
-      - name: centos-stream-8
-        label: cloud-centos-8-stream
       # TODO: lacking ubuntu/debian testing coverage because there is no ubuntu image in CI
       #- name: ubuntu-bionic
       #  label: ubuntu-bionic-1vcpu
@@ -20,9 +18,8 @@
           - database-server
       - name: ara-api-server
         nodes:
-          - fedora-39
+          - fedora-40
           - centos-stream-9
-          - centos-stream-8
           # - ubuntu-bionic
 
 # Nodeset used to test instances of ARA API deployed on different operating
@@ -30,20 +27,17 @@
 - nodeset:
     name: ara-multinode
     nodes:
-      - name: fedora-39
-        label: cloud-fedora-39
+      - name: fedora-40
+        label: cloud-fedora-40
       - name: centos-stream-9
         label: cloud-centos-9-stream
-      - name: centos-stream-8
-        label: cloud-centos-8-stream
       # TODO: lacking ubuntu/debian testing coverage because there is no ubuntu image in CI
       #- name: ubuntu-bionic
       #  label: ubuntu-bionic-1vcpu
     groups:
       - name: ara-api-server
         nodes:
-          - fedora-39
+          - fedora-40
           - centos-stream-9
-          - centos-stream-8
           # - ubuntu-bionic
 
