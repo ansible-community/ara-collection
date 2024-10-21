@@ -5,8 +5,15 @@
 - name: Deploy and test ARA API with podman
   hosts: ara-api-server
   gather_facts: yes
-  vars_files:
-    - vars/podman_tests.yaml
+  vars:
+    ara_api_install_method: podman
+    ara_api_version: latest
+    ara_api_root_dir: "{{ ansible_user_dir }}/.ara-tests"
+    ara_api_secret_key: testing
+    ara_api_debug: true
+    ara_api_log_level: DEBUG
+    # Configure cleanup crons to exercise the code path during tests
+    ara_api_configure_cron: true
   tasks:
     - name: Install podman
       become: yes
