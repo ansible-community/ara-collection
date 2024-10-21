@@ -43,11 +43,15 @@ ara_api_venv_path: "{{ ara_api_root_dir }}/virtualenv"
 # - source [default]: installs from a local or remote git repository
 # - distribution: installs from distribution packages, if available
 # - pypi : installs from pypi
+# - podman : installs as a podman container
 ara_api_install_method: source
 
 # When installing from source, the URL or filesystem path where the git source
 # repository can be cloned from.
 ara_api_source: "https://github.com/ansible-community/ara"
+
+# Image to pull from the container registry when running with Podman
+ara_api_image: 'recordsansible/ara-api'
 
 # When installing from source, location where the source repository will be checked out to.
 ara_api_source_checkout: "{{ ara_api_root_dir }}/git/ara"
@@ -57,7 +61,7 @@ ara_api_source_checkout: "{{ ara_api_root_dir }}/git/ara"
 # When installing from PyPi, it would be a version number that has been released.
 # When using "latest" as the source version, HEAD will be used
 # When using "latest" as the pypi version, the latest release will be used
-ara_api_version: master
+ara_api_version: latest
 
 # The frontend/web server for serving the ARA API
 # It is recommended to specify a web server when deploying a production environment.
